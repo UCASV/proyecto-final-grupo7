@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace ProyectoFinal.ContextSQL
+namespace ProyectoFinal.SQLContext
 {
-    public partial class ContextProyectoPOO_BDContext : DbContext
+    public partial class Proyecto_Final_BD_POO_2021Context : DbContext
     {
-        public ContextProyectoPOO_BDContext()
+        public Proyecto_Final_BD_POO_2021Context()
         {
         }
 
-        public ContextProyectoPOO_BDContext(DbContextOptions<ContextProyectoPOO_BDContext> options)
+        public Proyecto_Final_BD_POO_2021Context(DbContextOptions<Proyecto_Final_BD_POO_2021Context> options)
             : base(options)
         {
         }
@@ -124,10 +124,10 @@ namespace ProyectoFinal.ContextSQL
             {
                 entity.ToTable("CITIZEN");
 
-                entity.HasIndex(e => e.EMail, "UQ__CITIZEN__3166044227B0CF18")
+                entity.HasIndex(e => e.EMail, "UQ__CITIZEN__316604421A25A31E")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Phone, "UQ__CITIZEN__B43B145F9BB49493")
+                entity.HasIndex(e => e.Phone, "UQ__CITIZEN__B43B145F0178983B")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -222,7 +222,7 @@ namespace ProyectoFinal.ContextSQL
             {
                 entity.ToTable("EMPLOYEE");
 
-                entity.HasIndex(e => e.EMailInstitutional, "UQ__EMPLOYEE__510293D1FC848CFD")
+                entity.HasIndex(e => e.EMailInstitutional, "UQ__EMPLOYEE__510293D1A0480D25")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -325,10 +325,10 @@ namespace ProyectoFinal.ContextSQL
             {
                 entity.ToTable("MANAGER");
 
-                entity.HasIndex(e => e.EMail, "UQ__MANAGER__316604422D8002D3")
+                entity.HasIndex(e => e.EMail, "UQ__MANAGER__316604428E0B87A3")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Phone, "UQ__MANAGER__B43B145F09D5D192")
+                entity.HasIndex(e => e.Phone, "UQ__MANAGER__B43B145F95929A15")
                     .IsUnique();
 
                 entity.Property(e => e.Id)

@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace ProyectoFinal
 {
@@ -26,6 +29,7 @@ namespace ProyectoFinal
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
             tabControl.ItemSize = new Size(0, 1);
+<<<<<<< HEAD
 
             var db = new ContextProyectoPOO_BDContext();
 
@@ -35,6 +39,15 @@ namespace ProyectoFinal
             cmbInstitution.DataSource = institutions;
             cmbInstitution.DisplayMember = "Institution1";
             cmbInstitution.ValueMember = "Id";
+=======
+            //Conectando el combobox con la base de datos
+            var db = new ContextProyectoPOO_BDContext();
+            var sideEffects = from EffectSecondary in db.EffectSecondaries
+                              select EffectSecondary;
+            cmbSideEffects.DataSource = sideEffects.ToList();
+            cmbSideEffects.DisplayMember = "EffectSecondary1";
+            cmbSideEffects.ValueMember = "Id";
+>>>>>>> SideEffects
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -173,18 +186,21 @@ namespace ProyectoFinal
             DialogResult answer = MessageBox.Show("¿Esta seguro que quiere cancelar?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if(answer == DialogResult.Yes)
             {
-                tabControl.SelectedIndex = 0;
-                txtDui.Clear();
-                lblNameShow.Text = "";
-                lblPhoneNumber.Text = "";
-                lblEmail.Text = "";
-                lblDirection.Text = "";
-                lblDiseases.Text = "";
-                lblInstitution.Text = "";
+                Clear();
             }
             
         }
-
+        private void Clear()
+        {
+            tabControl.SelectedIndex = 0;
+            txtDui.Clear();
+            lblNameShow.Text = "";
+            lblPhoneNumber.Text = "";
+            lblEmail.Text = "";
+            lblDirection.Text = "";
+            lblDiseases.Text = "";
+            lblInstitution.Text = "";
+        }
         private void btnSearch_Click(object sender, EventArgs e)
         {
             //Se hará validación y si no retorna nada se deberá de sugerir si desea registrarse para que se le asigne una cita
@@ -241,11 +257,6 @@ namespace ProyectoFinal
                 "ser vigilado por 30 minutos", "Observación", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void btnSavePV_Click(object sender, EventArgs e)
-        {
-            //TO DO: Almacenar la hora y la fecha
-        }
-
         private void btnCancelPV_Click(object sender, EventArgs e)
         {
             DialogResult answer = MessageBox.Show("¿Esta seguro que quiere cancelar?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -257,28 +268,132 @@ namespace ProyectoFinal
 
         private void btnFinish_Click(object sender, EventArgs e)
         {
+            var db = new ContextProyectoPOO_BDContext();
+            AddingData();
+            
             MessageBox.Show("Se ha almacenado la información, el ciudadano " +
                 "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            tabControl.SelectedIndex = 0;
-            txtDui.Clear();
-            lblNameShow.Text = "";
-            lblPhoneNumber.Text = "";
-            lblEmail.Text = "";
-            lblDirection.Text = "";
-            lblDiseases.Text = "";
-            lblInstitution.Text = "";
-            //En este caso se tendría que hacer una validación en donde se debe de haber ingresado la hora para que se pueda
-            //dat siguiente
+            Clear();
         }
-
-        private void btnSaveSideEffects_Click(object sender, EventArgs e)
+        private void AddingData()
         {
-            //TO DO: Almacenar los efectos secundarios
+            var db = new ContextProyectoPOO_BDContext();
+            //Creando una nueva entidad de referencia que ya existe
+            EffectSecondary sideEffect = (EffectSecondary)cmbSideEffects.SelectedItem;
+            EffectSecondary sideEffectReference = db.Set<EffectSecondary>()
+                    .SingleOrDefault(s => s.Id == sideEffect.Id);
+            var postVaccination = new Vaccination
+            {
+                DateTimeApplication = dtpDateApplication.Value,
+                DateTimeProcess = dtpDate.Value,
+                IdPlaceVaccination = 1,
+                IdEffectSecondary = sideEffectReference.Id,
+                TimeSecondaryEffect = txtMinutes.Text.Trim()
+            };
+            db.Vaccinations.Add(postVaccination);
+            db.SaveChanges();
+            SecondAppointment(postVaccination);
         }
-
-        private void btnSaveApplicationTime_Click(object sender, EventArgs e)
+        private void SecondAppointment(Vaccination vaccination )
         {
-            //TO DO: Almacenar la hora
+            //Genera hora y minuto random
+            int h = 0;
+            int minutes = 0;
+            Random number = new Random();
+            h = number.Next(7, 17);
+            Random number2 = new Random();
+            minutes = number2.Next(0, 45);  
+           //Se crea la cita para segunda dosis
+            DateTime secondAppointment = Convert.ToDateTime(dtpDateApplication.Value.ToString());
+            secondAppointment = secondAppointment.AddDays(42);
+            TimeSpan hour = new TimeSpan( h, minutes, 0);
+            secondAppointment = secondAppointment.Add(hour);
+
+            var db = new ContextProyectoPOO_BDContext();
+            var appointmentConect = new Appointment
+            {
+                DateTime = secondAppointment,
+                IdCitizen = 3,
+                IdVaccination = vaccination.Id
+            };
+            db.Appointments.Add(appointmentConect);
+            db.SaveChanges();
+            GeneratePDF(secondAppointment, vaccination);
+        }
+        private void GeneratePDF(DateTime secondAppointment, Vaccination vaccination)
+        {
+            var db = new ContextProyectoPOO_BDContext();
+            var query = from EffectSecondary in db.EffectSecondaries
+                        where EffectSecondary.Id == vaccination.IdEffectSecondary
+                        select EffectSecondary.EffectSecondary1;
+
+            FileStream fs = new FileStream(@"C:\Users\IncoMex\Desktop\Gabriela\PDF\CitaSegundaDosis.pdf", FileMode.Create);
+            Document doc = new Document(PageSize.LETTER, 5, 5, 7, 7);
+            PdfWriter pdfW = PdfWriter.GetInstance(doc, fs);
+            doc.Open();
+            //titulo pdf y autor
+            doc.AddAuthor("Grupo 8");
+            doc.AddTitle("Proceso de vacunación");
+
+            //definifir la fuente
+            iTextSharp.text.Font standarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            // Encabezado del documento
+            doc.Add(new Paragraph("Información de vacunación", standarFont));
+            doc.Add(Chunk.NEWLINE);
+
+            //Encabezado de columnas
+            PdfPTable tblTry = new PdfPTable(2);
+            tblTry.WidthPercentage = 100;
+
+            //Configurando el título de nuestras columnas
+            PdfPCell clDateTimeApplication = new PdfPCell(new Phrase("Fecha y hora de aplicación de vacuna", standarFont));
+            clDateTimeApplication.BorderWidth = 0;
+            clDateTimeApplication.BorderWidthBottom = 0.75f;
+
+            PdfPCell clDateTimeProcess = new PdfPCell(new Phrase("Fecha y hora de aplicación", standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            PdfPCell clSideEffects = new PdfPCell(new Phrase("Efectos secundarios presentados", standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            PdfPCell clSecondAppointment = new PdfPCell(new Phrase("Fecha y hora para segunda dosis", standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            tblTry.AddCell(clDateTimeApplication);
+            tblTry.AddCell(clDateTimeProcess);
+            tblTry.AddCell(clSideEffects);
+            tblTry.AddCell(clSecondAppointment);
+
+            //Añadiendo datos
+            PdfPCell clDateTimeApplication2 = new PdfPCell(new Phrase(dtpDateApplication.Value.ToString(), standarFont));
+            clDateTimeApplication.BorderWidth = 0;
+            clDateTimeApplication.BorderWidthBottom = 0.75f;
+
+            PdfPCell clDateTimeProcess2 = new PdfPCell(new Phrase(dtpDate.Value.ToString(), standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            PdfPCell clSideEffects2 = new PdfPCell(new Phrase(query.ToString(), standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            PdfPCell clSecondAppointment2 = new PdfPCell(new Phrase(secondAppointment.ToString(), standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            tblTry.AddCell(clDateTimeApplication2);
+            tblTry.AddCell(clDateTimeProcess2);
+            tblTry.AddCell(clSideEffects2);
+            tblTry.AddCell(clSecondAppointment2);
+
+            doc.Add(tblTry);
+            doc.Close();
+            pdfW.Close();
+
+            MessageBox.Show("Se ha creado exitosamente el PDF", "PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void frmPrincipal_FormClosing(object sender, FormClosingEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoFinal.ContextSQL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,6 +26,15 @@ namespace ProyectoFinal
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
             tabControl.ItemSize = new Size(0, 1);
+
+            var db = new ContextProyectoPOO_BDContext();
+
+            //Combobox de las Instituciones
+            List<Institution> institutions = db.Institutions
+                .ToList();
+            cmbInstitution.DataSource = institutions;
+            cmbInstitution.DisplayMember = "Institution1";
+            cmbInstitution.ValueMember = "Id";
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -64,11 +74,57 @@ namespace ProyectoFinal
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Los datos del ciudadano ha sido almacenada", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //Posteriormente se le genera un mensaje para que aparezca la fecha de su cita
+            bool check =
+                txtCitizenName.Text.Length > 4 &&
+                txtPhoneNumer2.Text.Length > 7 &&
+                txtDirection.Text.Length > 4 &&
+                txtEmail.Text.Length > 4;
 
-            //Se redirige a inicio porque no se sabe si se quiere hacer seguimiento de cita o registrar otro ciudadano
-            tabControl.SelectedIndex = 0;
+            if (check && CheckDui(txtDuiRU.Text)) //validando DUI y los demas parametros
+            {
+                Institution u = new Institution();//La opcion seleccionada en el combobox de institucion
+                u.Id = ((Institution)cmbInstitution.SelectedItem).Id;
+
+                var db = new ContextProyectoPOO_BDContext();
+
+                Institution institute = db.Set<Institution>()
+                    .SingleOrDefault(m => m.Id == u.Id);//Al Id de la institucion
+
+
+                Citizen citizen = new Citizen //Almacenando los datos ingresados a la tabla Ciudadano de la BD
+                {
+                    Dui = txtDuiRU.Text,
+                    NameCitizen = txtCitizenName.Text,
+                    Phone = txtPhoneNumer2.Text,
+                    Direction = txtDirection.Text,
+                    EMail = txtEmail.Text,
+                    IdInstitution = institute.Id
+                };
+                
+                db.Add(citizen);//agregamos nuevo ciudadano
+                db.SaveChanges();
+
+                Disease disease = new Disease//Almacenando la lista ingresada
+                {
+                    Disease1 = txtDisease.Text,
+                    IdCitizen = citizen.Id//asignando al id del ciudadano
+                };
+
+                db.Add(disease);//agregamos la lista de enfermedades al Id del ciudadano
+                db.SaveChanges();
+                MessageBox.Show("Los datos del ciudadano ha sido almacenada", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //funcion para mostrar la fecha de la cita
+
+                //Se redirige a inicio porque no se sabe si se quiere hacer seguimiento de cita o registrar otro ciudadano
+                tabControl.SelectedIndex = 0;
+            }
+
+            else
+            {
+                MessageBox.Show("Los datos son erroneos", "Error de almacenamineto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            //Posteriormente se le genera un mensaje para que aparezca la fecha de su cita
 
         }
 
@@ -79,12 +135,12 @@ namespace ProyectoFinal
             {
                 tabControl.SelectedIndex = 0;
                 txtDuiRU.Text = "";
-                txtCritizenName.Text = "";
+                txtCitizenName.Text = "";
                 txtPhoneNumer2.Text = "";
                 txtDirection.Text = "";
                 txtEmail.Text = "";
-                txtSickness.Text = "";
-                txtInstitution.Text = "";
+               // txtSickness.Text = "";
+                //txtInstitution.Text = "";
             }
         }
         private void toolStripHome_Click(object sender, EventArgs e)
@@ -229,5 +285,26 @@ namespace ProyectoFinal
         {
             Application.Exit();
         }
+
+        
+         //Metodo para validar en numero de DUI
+         public static bool CheckDui(string dui)
+         {
+            const string digits = "0123456789";
+
+            if (dui.Length != 10)
+            {
+               return false;
+            }
+
+            for (int i = 0; i < dui.Length; i++)
+            {
+                 if ((i == 8 && dui[i] != '-') || (i != 8 && !digits.Contains(dui[i])))
+                        return false;
+       
+             }
+                return true;
+         }
+
     }
 }

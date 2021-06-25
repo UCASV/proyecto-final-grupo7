@@ -99,7 +99,7 @@ namespace ProyectoFinal
                 .SingleOrDefault(m => m.Id == u.Id);//Al Id de la institucion
 
             
-            if (check && CheckDui(txtDuiRU.Text) ) //validando DUI y los demas parametros
+            if (check && Check.CheckDui(txtDuiRU.Text) ) //validando DUI y los demas parametros
             {
                 var n = new Citizen();
                 var disease = new List<Disease>();
@@ -108,22 +108,26 @@ namespace ProyectoFinal
                 //Si el ciudadano pertenece a una Institucion con prioridad
                 if (Check.Check_institution(institute.Id))
                 {
-                    AddCitizen(); //agregamos ciudadano a BD             
+                    AddCitizen(); //agregamos ciudadano a BD
+                    return;
                 }
                 //Si el ciudadano tiene 60 años para arriba
                 if(age >= 60)
                 {
                     AddCitizen(); // agregamos ciudadano a BD
+                    return;
                 }
                 //Si el ciudadano tiene 18 años y padece de muchas enfermedades
                 if(n.Age >=18 && disease.Count > 0)
                 {
                     AddCitizen(); //agregamos ciudadano a BD
+                    return;
                 }
 
                 else
                 {
                     MessageBox.Show("No eres una persona con prioridad, Espera tu etapa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
                    
                 //Posteriormente se le genera un mensaje para que aparezca la fecha de su cita
@@ -154,6 +158,7 @@ namespace ProyectoFinal
                 txtDirection.Text = "";
                 txtEmail.Text = "";
                 txtDisease.Text = "";
+                txtAge.Text = "";              
             }
         }
         private void toolStripHome_Click(object sender, EventArgs e)
@@ -401,25 +406,7 @@ namespace ProyectoFinal
             Application.Exit();
         }
 
-        //Metodo para validar en numero de DUI
-        public static bool CheckDui(string dui)
-        {
-            const string digits = "0123456789";
-
-            if (dui.Length != 10)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < dui.Length; i++)
-            {
-                if ((i == 8 && dui[i] != '-') || (i != 8 && !digits.Contains(dui[i])))
-                    return false;
-
-            }
-            return true;
-        }
-        private void AddCitizen()
+        private void AddCitizen()//Metodo para agregar ciudadano a la BD
         {
             int age = Convert.ToInt32(txtAge.Text);
             Institution u = new Institution();//La opcion seleccionada en el combobox de institucion

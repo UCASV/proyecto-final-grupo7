@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace ProyectoFinal.ContextSQL
+namespace ProyectoFinal.ContextUCA
 {
     public partial class Administrator
     {

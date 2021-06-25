@@ -1,5 +1,4 @@
-﻿using ProyectoFinal.ContextSQL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +10,7 @@ using System.Windows.Forms;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
+using ProyectoFinal.ContextUCA;
 
 namespace ProyectoFinal
 {
@@ -30,7 +30,7 @@ namespace ProyectoFinal
         {
             tabControl.ItemSize = new Size(0, 1);
             //Conectando el combobox con la base de datos
-            var db = new ContextProyectoPOO_BDContext();
+            var db = new UCA_ContextContext();
             var sideEffects = from EffectSecondary in db.EffectSecondaries
                               select EffectSecondary;
             cmbSideEffects.DataSource = sideEffects.ToList();
@@ -210,7 +210,7 @@ namespace ProyectoFinal
 
         private void btnFinish_Click(object sender, EventArgs e)
         {
-            var db = new ContextProyectoPOO_BDContext();
+            var db = new UCA_ContextContext();
             AddingData();
             
             MessageBox.Show("Se ha almacenado la información, el ciudadano " +
@@ -219,7 +219,7 @@ namespace ProyectoFinal
         }
         private void AddingData()
         {
-            var db = new ContextProyectoPOO_BDContext();
+            var db = new UCA_ContextContext();
             //Creando una nueva entidad de referencia que ya existe
             EffectSecondary sideEffect = (EffectSecondary)cmbSideEffects.SelectedItem;
             EffectSecondary sideEffectReference = db.Set<EffectSecondary>()
@@ -228,7 +228,7 @@ namespace ProyectoFinal
             {
                 DateTimeApplication = dtpDateApplication.Value,
                 DateTimeProcess = dtpDate.Value,
-                IdPlaceVaccination = 1,
+               // IdPlaceVaccination = 1,   ---> campo ya no existente
                 IdEffectSecondary = sideEffectReference.Id,
                 TimeSecondaryEffect = txtMinutes.Text.Trim()
             };
@@ -251,12 +251,12 @@ namespace ProyectoFinal
             TimeSpan hour = new TimeSpan( h, minutes, 0);
             secondAppointment = secondAppointment.Add(hour);
 
-            var db = new ContextProyectoPOO_BDContext();
+            var db = new UCA_ContextContext();
             var appointmentConect = new Appointment
             {
                 DateTime = secondAppointment,
                 IdCitizen = 3,
-                IdVaccination = vaccination.Id
+                //IdVaccination = vaccination.Id -----> Modificacion campo ya no existente
             };
             db.Appointments.Add(appointmentConect);
             db.SaveChanges();
@@ -264,7 +264,7 @@ namespace ProyectoFinal
         }
         private void GeneratePDF(DateTime secondAppointment, Vaccination vaccination)
         {
-            var db = new ContextProyectoPOO_BDContext();
+            var db = new UCA_ContextContext();
             var query = from EffectSecondary in db.EffectSecondaries
                         where EffectSecondary.Id == vaccination.IdEffectSecondary
                         select EffectSecondary.EffectSecondary1;

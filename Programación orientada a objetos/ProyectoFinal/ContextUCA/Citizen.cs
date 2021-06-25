@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace ProyectoFinal.ContextSQL
+namespace ProyectoFinal.ContextUCA
 {
     public partial class Citizen
     {
@@ -19,6 +19,7 @@ namespace ProyectoFinal.ContextSQL
         public string Phone { get; set; }
         public string Direction { get; set; }
         public string EMail { get; set; }
+        public int Age { get; set; }
         public string IdAdministrator { get; set; }
         public int IdInstitution { get; set; }
 

@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProyectoFinal", "ProyectoFi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59C0A8F6-92B5-45A4-983D-3CA06FF44F34}"
 	ProjectSection(SolutionItems) = preProject
+<<<<<<< HEAD
 		.gitignore = .gitignore
+=======
+		..\..\..\..\Downloads\gitignore (2) = ..\..\..\..\Downloads\gitignore (2)
+>>>>>>> Add_Context
 	EndProjectSection
 EndProject
 Global

@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "vYLExjIDuMtsNP0e5HKjasnftXvGZhaaMhCfF67kLl0CvkSSWh+bTgEqymDcnoSkxVaa4sZh+47pWa8D12hZNA==",
+=======
+  "dgSpecHash": "qUS845EIuP1t2JdXLKdDt93/6Ktr2eoe+9IziwBrazru6QDAGfytHpsxYz/kcP5J4IVafRzWjeKHr7HojkPi+Q==",
+>>>>>>> b40bef2d7c1bd86492e76ed51cbffb60c734b855
   "success": true,
   "projectFilePath": "C:\\Users\\IncoMex\\Desktop\\Gabriela\\proyecto-final-grupo7\\Programación orientada a objetos\\ProyectoFinal\\ProyectoFinal.csproj",
   "expectedPackageFiles": [

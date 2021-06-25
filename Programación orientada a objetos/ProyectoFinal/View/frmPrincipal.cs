@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoFinal.ContextSQL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,6 +26,13 @@ namespace ProyectoFinal
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
             tabControl.ItemSize = new Size(0, 1);
+            //Conectando el combobox con la base de datos
+            var db = new ContextProyectoPOO_BDContext();
+            var sideEffects = from EffectSecondary in db.EffectSecondaries
+                              select EffectSecondary;
+            cmbSideEffects.DataSource = sideEffects.ToList();
+            cmbSideEffects.DisplayMember = "EffectSecondary1";
+            cmbSideEffects.ValueMember = "Id";
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -117,18 +125,21 @@ namespace ProyectoFinal
             DialogResult answer = MessageBox.Show("¿Esta seguro que quiere cancelar?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if(answer == DialogResult.Yes)
             {
-                tabControl.SelectedIndex = 0;
-                txtDui.Clear();
-                lblNameShow.Text = "";
-                lblPhoneNumber.Text = "";
-                lblEmail.Text = "";
-                lblDirection.Text = "";
-                lblDiseases.Text = "";
-                lblInstitution.Text = "";
+                Clear();
             }
             
         }
-
+        private void Clear()
+        {
+            tabControl.SelectedIndex = 0;
+            txtDui.Clear();
+            lblNameShow.Text = "";
+            lblPhoneNumber.Text = "";
+            lblEmail.Text = "";
+            lblDirection.Text = "";
+            lblDiseases.Text = "";
+            lblInstitution.Text = "";
+        }
         private void btnSearch_Click(object sender, EventArgs e)
         {
             //Se hará validación y si no retorna nada se deberá de sugerir si desea registrarse para que se le asigne una cita
@@ -185,11 +196,6 @@ namespace ProyectoFinal
                 "ser vigilado por 30 minutos", "Observación", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void btnSavePV_Click(object sender, EventArgs e)
-        {
-            //TO DO: Almacenar la hora y la fecha
-        }
-
         private void btnCancelPV_Click(object sender, EventArgs e)
         {
             DialogResult answer = MessageBox.Show("¿Esta seguro que quiere cancelar?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -201,28 +207,33 @@ namespace ProyectoFinal
 
         private void btnFinish_Click(object sender, EventArgs e)
         {
+            var db = new ContextProyectoPOO_BDContext();
+
+            //Creando una nueva entidad de referencia que ya existe
+            EffectSecondary sideEffect = (EffectSecondary)cmbSideEffects.SelectedItem;
+            EffectSecondary sideEffectReference = db.Set<EffectSecondary>()
+                    .SingleOrDefault(s => s.Id == sideEffect.Id);
+            var postVaccination = new Vaccination
+            {
+                DateTimeApplication = dtpDateApplication.Value,
+                DateTimeProcess = dtpDate.Value,
+                IdPlaceVaccination = 1,
+                IdEffectSecondary = sideEffectReference.Id,
+                TimeSecondaryEffect = txtMinutes.Text.Trim()
+            };
+            db.Vaccinations.Add(postVaccination);
+
+            var appointmentConect = new Appointment
+            {
+                DateTime = dtpDate.Value,
+                IdCitizen = 1,
+                IdVaccination = postVaccination.Id
+            };
+            db.Appointments.Add(appointmentConect);
+            db.SaveChanges();
             MessageBox.Show("Se ha almacenado la información, el ciudadano " +
                 "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            tabControl.SelectedIndex = 0;
-            txtDui.Clear();
-            lblNameShow.Text = "";
-            lblPhoneNumber.Text = "";
-            lblEmail.Text = "";
-            lblDirection.Text = "";
-            lblDiseases.Text = "";
-            lblInstitution.Text = "";
-            //En este caso se tendría que hacer una validación en donde se debe de haber ingresado la hora para que se pueda
-            //dat siguiente
-        }
-
-        private void btnSaveSideEffects_Click(object sender, EventArgs e)
-        {
-            //TO DO: Almacenar los efectos secundarios
-        }
-
-        private void btnSaveApplicationTime_Click(object sender, EventArgs e)
-        {
-            //TO DO: Almacenar la hora
+            Clear();
         }
 
         private void frmPrincipal_FormClosing(object sender, FormClosingEventArgs e)

@@ -29,17 +29,6 @@ namespace ProyectoFinal
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
             tabControl.ItemSize = new Size(0, 1);
-<<<<<<< HEAD
-
-            var db = new ContextProyectoPOO_BDContext();
-
-            //Combobox de las Instituciones
-            List<Institution> institutions = db.Institutions
-                .ToList();
-            cmbInstitution.DataSource = institutions;
-            cmbInstitution.DisplayMember = "Institution1";
-            cmbInstitution.ValueMember = "Id";
-=======
             //Conectando el combobox con la base de datos
             var db = new ContextProyectoPOO_BDContext();
             var sideEffects = from EffectSecondary in db.EffectSecondaries
@@ -47,7 +36,6 @@ namespace ProyectoFinal
             cmbSideEffects.DataSource = sideEffects.ToList();
             cmbSideEffects.DisplayMember = "EffectSecondary1";
             cmbSideEffects.ValueMember = "Id";
->>>>>>> SideEffects
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)

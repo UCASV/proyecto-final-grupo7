@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace ProyectoFinal.ContextSQL
+namespace ProyectoFinal.ContextUCA
 {
-    public partial class ContextProyectoPOO_BDContext : DbContext
+    public partial class UCA_ContextContext : DbContext
     {
-        public ContextProyectoPOO_BDContext()
+        public UCA_ContextContext()
         {
         }
 
-        public ContextProyectoPOO_BDContext(DbContextOptions<ContextProyectoPOO_BDContext> options)
+        public UCA_ContextContext(DbContextOptions<UCA_ContextContext> options)
             : base(options)
         {
         }
@@ -36,7 +36,7 @@ namespace ProyectoFinal.ContextSQL
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=Proyecto_Final_BD_POO_2021;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=LAPTOP-00OSCEQ3;Database=UCA_Context;Trusted_Connection=True");
             }
         }
 
@@ -78,7 +78,7 @@ namespace ProyectoFinal.ContextSQL
 
                 entity.Property(e => e.IdCitizen).HasColumnName("id_citizen");
 
-                entity.Property(e => e.IdVaccination).HasColumnName("id_vaccination");
+                entity.Property(e => e.IdPlaceVaccination).HasColumnName("id_place_vaccination");
 
                 entity.HasOne(d => d.IdCitizenNavigation)
                     .WithMany(p => p.Appointments)
@@ -86,11 +86,11 @@ namespace ProyectoFinal.ContextSQL
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__APPOINTME__id_ci__48CFD27E");
 
-                entity.HasOne(d => d.IdVaccinationNavigation)
+                entity.HasOne(d => d.IdPlaceVaccinationNavigation)
                     .WithMany(p => p.Appointments)
-                    .HasForeignKey(d => d.IdVaccination)
+                    .HasForeignKey(d => d.IdPlaceVaccination)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__APPOINTME__id_va__49C3F6B7");
+                    .HasConstraintName("FK__APPOINTME__id_pl__49C3F6B7");
             });
 
             modelBuilder.Entity<Booth>(entity =>
@@ -124,13 +124,15 @@ namespace ProyectoFinal.ContextSQL
             {
                 entity.ToTable("CITIZEN");
 
-                entity.HasIndex(e => e.EMail, "UQ__CITIZEN__3166044227B0CF18")
+                entity.HasIndex(e => e.EMail, "UQ__CITIZEN__31660442D7B9798E")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Phone, "UQ__CITIZEN__B43B145F9BB49493")
+                entity.HasIndex(e => e.Phone, "UQ__CITIZEN__B43B145F4995C6B0")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Age).HasColumnName("age");
 
                 entity.Property(e => e.Direction)
                     .IsRequired()
@@ -222,7 +224,7 @@ namespace ProyectoFinal.ContextSQL
             {
                 entity.ToTable("EMPLOYEE");
 
-                entity.HasIndex(e => e.EMailInstitutional, "UQ__EMPLOYEE__510293D1FC848CFD")
+                entity.HasIndex(e => e.EMailInstitutional, "UQ__EMPLOYEE__510293D186A4E4FF")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -325,10 +327,10 @@ namespace ProyectoFinal.ContextSQL
             {
                 entity.ToTable("MANAGER");
 
-                entity.HasIndex(e => e.EMail, "UQ__MANAGER__316604422D8002D3")
+                entity.HasIndex(e => e.EMail, "UQ__MANAGER__31660442057312E1")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Phone, "UQ__MANAGER__B43B145F09D5D192")
+                entity.HasIndex(e => e.Phone, "UQ__MANAGER__B43B145F7395EF24")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -400,25 +402,25 @@ namespace ProyectoFinal.ContextSQL
                     .HasColumnType("datetime")
                     .HasColumnName("date_time_process");
 
-                entity.Property(e => e.IdEffectSecondary).HasColumnName("id_effect_secondary");
+                entity.Property(e => e.IdAppointment).HasColumnName("id_appointment");
 
-                entity.Property(e => e.IdPlaceVaccination).HasColumnName("id_place_vaccination");
+                entity.Property(e => e.IdEffectSecondary).HasColumnName("id_effect_secondary");
 
                 entity.Property(e => e.TimeSecondaryEffect)
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("time_secondary_effect");
 
+                entity.HasOne(d => d.IdAppointmentNavigation)
+                    .WithMany(p => p.Vaccinations)
+                    .HasForeignKey(d => d.IdAppointment)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__VACCINATI__id_ap__4BAC3F29");
+
                 entity.HasOne(d => d.IdEffectSecondaryNavigation)
                     .WithMany(p => p.Vaccinations)
                     .HasForeignKey(d => d.IdEffectSecondary)
                     .HasConstraintName("FK__VACCINATI__id_ef__4AB81AF0");
-
-                entity.HasOne(d => d.IdPlaceVaccinationNavigation)
-                    .WithMany(p => p.Vaccinations)
-                    .HasForeignKey(d => d.IdPlaceVaccination)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__VACCINATI__id_pl__4BAC3F29");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -11,6 +11,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using ProyectoFinal.ContextUCA;
+using ProyectoFinal.Controller;
 
 namespace ProyectoFinal
 {
@@ -36,6 +37,13 @@ namespace ProyectoFinal
             cmbSideEffects.DataSource = sideEffects.ToList();
             cmbSideEffects.DisplayMember = "EffectSecondary1";
             cmbSideEffects.ValueMember = "Id";
+
+            //Combobox de las Instituciones
+            List<Institution> institutions = db.Institutions
+                .ToList();
+            cmbInstitution.DataSource = institutions;
+            cmbInstitution.DisplayMember = "Institution1";
+            cmbInstitution.ValueMember = "Id";
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -75,8 +83,59 @@ namespace ProyectoFinal
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Los datos del ciudadano ha sido almacenada", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //Posteriormente se le genera un mensaje para que aparezca la fecha de su cita
+            bool check =
+                txtCitizenName.Text.Length > 4 &&//verificando datos esten correctos
+                txtPhoneNumer2.Text.Length > 7 &&
+                txtDirection.Text.Length > 4 &&
+                txtEmail.Text.Length > 4 &&
+                txtAge.Text.Length > 0;
+
+            Institution u = new Institution();//La opcion seleccionada en el combobox de institucion
+            u.Id = ((Institution)cmbInstitution.SelectedItem).Id;
+
+            var db = new UCA_ContextContext();
+
+            Institution institute = db.Set<Institution>()
+                .SingleOrDefault(m => m.Id == u.Id);//Al Id de la institucion
+
+            
+            if (check && CheckDui(txtDuiRU.Text) ) //validando DUI y los demas parametros
+            {
+                var n = new Citizen();
+                var disease = new List<Disease>();
+                int age = Convert.ToInt32(txtAge.Text);
+
+                //Si el ciudadano pertenece a una Institucion con prioridad
+                if (Check.Check_institution(institute.Id))
+                {
+                    AddCitizen(); //agregamos ciudadano a BD             
+                }
+                //Si el ciudadano tiene 60 años para arriba
+                if(age >= 60)
+                {
+                    AddCitizen(); // agregamos ciudadano a BD
+                }
+                //Si el ciudadano tiene 18 años y padece de muchas enfermedades
+                if(n.Age >=18 && disease.Count > 0)
+                {
+                    AddCitizen(); //agregamos ciudadano a BD
+                }
+
+                else
+                {
+                    MessageBox.Show("No eres una persona con prioridad, Espera tu etapa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                   
+                //Posteriormente se le genera un mensaje para que aparezca la fecha de su cita
+
+                //funcion para mostrar la fecha de la cita
+            }
+
+            else
+            {
+               MessageBox.Show("Los datos ingresado no son validos", "Error de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //El ciudadano no es una persona con prioridad
+            }
 
             //Se redirige a inicio porque no se sabe si se quiere hacer seguimiento de cita o registrar otro ciudadano
             tabControl.SelectedIndex = 0;
@@ -90,12 +149,11 @@ namespace ProyectoFinal
             {
                 tabControl.SelectedIndex = 0;
                 txtDuiRU.Text = "";
-                txtCritizenName.Text = "";
+                txtCitizenName.Text = "";
                 txtPhoneNumer2.Text = "";
                 txtDirection.Text = "";
                 txtEmail.Text = "";
-                txtSickness.Text = "";
-                txtInstitution.Text = "";
+                txtDisease.Text = "";
             }
         }
         private void toolStripHome_Click(object sender, EventArgs e)
@@ -342,5 +400,60 @@ namespace ProyectoFinal
         {
             Application.Exit();
         }
+
+        //Metodo para validar en numero de DUI
+        public static bool CheckDui(string dui)
+        {
+            const string digits = "0123456789";
+
+            if (dui.Length != 10)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < dui.Length; i++)
+            {
+                if ((i == 8 && dui[i] != '-') || (i != 8 && !digits.Contains(dui[i])))
+                    return false;
+
+            }
+            return true;
+        }
+        private void AddCitizen()
+        {
+            int age = Convert.ToInt32(txtAge.Text);
+            Institution u = new Institution();//La opcion seleccionada en el combobox de institucion
+            u.Id = ((Institution)cmbInstitution.SelectedItem).Id;
+
+            var db = new UCA_ContextContext();
+
+            Institution institute = db.Set<Institution>()
+                .SingleOrDefault(m => m.Id == u.Id);//Al Id de la institucion
+
+            Citizen citizen = new Citizen //Almacenando los datos ingresados a la tabla Ciudadano de la BD
+            {
+                Dui = txtDuiRU.Text,
+                NameCitizen = txtCitizenName.Text,
+                Phone = txtPhoneNumer2.Text,
+                Direction = txtDirection.Text,
+                EMail = txtEmail.Text,
+                Age = age,
+                IdInstitution = institute.Id
+            };
+
+            db.Add(citizen);//agregamos nuevo ciudadano
+            db.SaveChanges();
+
+            Disease disease = new Disease//Almacenando la lista ingresada
+            {
+                Disease1 = txtDisease.Text,
+                IdCitizen = citizen.Id//asignando al id del ciudadano
+            };
+
+            db.Add(disease);//agregamos la lista de enfermedades al Id del ciudadano
+            db.SaveChanges();
+            MessageBox.Show("Los datos del ciudadano ha sido almacenada", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
     }
 }

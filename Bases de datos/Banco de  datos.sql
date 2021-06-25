@@ -1,0 +1,194 @@
+--CREACION DE LA BASE DEL PROYECTO
+SET LANGUAGE us_english
+
+-- Creando tablas
+CREATE TABLE LOGIN(
+	id INT PRIMARY KEY IDENTITY,
+	date_time DATETIME NOT NULL,
+	id_booth INT NOT NULL,
+	id_employee VARCHAR(8) NOT NULL
+);
+
+CREATE TABLE BOOTH(
+	id INT PRIMARY KEY,
+    direction VARCHAR(100)NOT NULL,
+	id_manager VARCHAR(8) NOT NULL
+);
+
+CREATE TABLE MANAGER(
+	id VARCHAR(8) PRIMARY KEY,
+    name_manager VARCHAR(20)NOT NULL,
+	phone CHAR(13) NOT NULL UNIQUE,
+	E_mail VARCHAR(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE EMPLOYEE(
+	id VARCHAR(8) PRIMARY KEY,
+    name_employee VARCHAR(20) NOT NULL,
+	E_mail_institutional VARCHAR(30) NOT NULL UNIQUE,
+	direction VARCHAR(100)NOT NULL,
+	id_booth INT NOT NULL,
+	id_type INT NOT NULL,
+	id_administrator VARCHAR(8) NULL
+);
+
+CREATE TABLE ADMINISTRATOR(
+	id VARCHAR(8) PRIMARY KEY,
+	name_user VARCHAR(20) NOT NULL,
+    password_user VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE TYPE(
+	id INT PRIMARY KEY,
+    type VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE CITIZEN(
+  id INT PRIMARY KEY IDENTITY,
+  dui VARCHAR(10)NOT NULL,
+  name_citizen VARCHAR(30) NOT NULL,
+  phone CHAR(13) NOT NULL UNIQUE,
+  direction VARCHAR(100) NOT NULL,
+  E_mail VARCHAR(50) NOT NULL UNIQUE,
+  id_administrator VARCHAR(8) NULL,
+  id_institution INT NOT NULL
+);
+
+CREATE TABLE APPOINTMENT(
+	id INT PRIMARY KEY IDENTITY,
+    date_time DATETIME NOT NULL,
+	id_citizen INT NOT NULL,
+	id_vaccination INT NOT NULL
+);
+
+CREATE TABLE DISEASE(
+	id INT PRIMARY KEY IDENTITY,
+    disease VARCHAR(200) NOT NULL,
+	id_citizen INT NOT NULL
+);
+
+CREATE TABLE INSTITUTION(
+	id INT PRIMARY KEY,
+    institution VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE VACCINATION(
+	id INT PRIMARY KEY IDENTITY,
+    date_time_application DATETIME NOT NULL,
+	date_time_process DATETIME NOT NULL,
+	time_secondary_effect VARCHAR(20) NULL,
+	id_place_vaccination INT NOT NULL,
+	id_effect_secondary INT NULL
+);
+
+CREATE TABLE EFFECT_SECONDARY(
+	id INT PRIMARY KEY,
+    effect_secondary VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE PLACE_VACCINATION(
+	id INT PRIMARY KEY,
+    place_vaccination VARCHAR(30) NOT NULL
+);
+
+--Creacion de llaves foraneas
+ ALTER TABLE LOGIN ADD FOREIGN KEY (id_employee) REFERENCES EMPLOYEE(id); 
+ ALTER TABLE LOGIN ADD FOREIGN KEY (id_booth) REFERENCES BOOTH(id); 
+ ALTER TABLE BOOTH ADD FOREIGN KEY (id_manager) REFERENCES MANAGER(id); 
+ ALTER TABLE EMPLOYEE ADD FOREIGN KEY (id_booth) REFERENCES BOOTH(id); 
+ ALTER TABLE EMPLOYEE ADD FOREIGN KEY (id_type) REFERENCES TYPE(id);
+ ALTER TABLE EMPLOYEE ADD FOREIGN KEY (id_administrator) REFERENCES ADMINISTRATOR(id);
+ ALTER TABLE CITIZEN ADD FOREIGN KEY (id_administrator) REFERENCES ADMINISTRATOR(id);
+ ALTER TABLE DISEASE ADD FOREIGN KEY (id_citizen) REFERENCES CITIZEN(id); 
+ ALTER TABLE CITIZEN ADD FOREIGN KEY (id_institution) REFERENCES INSTITUTION(id); 
+ ALTER TABLE APPOINTMENT ADD FOREIGN KEY (id_citizen) REFERENCES CITIZEN(id);
+ ALTER TABLE APPOINTMENT ADD FOREIGN KEY (id_vaccination) REFERENCES VACCINATION(id);
+ ALTER TABLE VACCINATION ADD FOREIGN KEY (id_effect_secondary) REFERENCES EFFECT_SECONDARY(id); 
+ ALTER TABLE VACCINATION ADD FOREIGN KEY (id_place_vaccination) REFERENCES PLACE_VACCINATION(id);
+
+  --Banco de datos de Gestor
+INSERT INTO ADMINISTRATOR VALUES('00090220','Lourdes Jimenez','admin1');
+INSERT INTO ADMINISTRATOR VALUES('00161220','Erika Hernandez','admin2');
+INSERT INTO ADMINISTRATOR VALUES('00175420','Edwin Arucha','admin3');
+INSERT INTO ADMINISTRATOR VALUES('00176620','Roberto Alvarado','admin4');
+
+ --Banco de datos de tipo de empleado
+INSERT INTO TYPE VALUES(1,'Gestor');
+INSERT INTO TYPE VALUES(2,'Vigilante');
+INSERT INTO TYPE VALUES(3,'Encargado');
+INSERT INTO TYPE VALUES(4,'Personal Limpieza');
+INSERT INTO TYPE VALUES(5,'Personal de Salud');
+
+--Banco de datos de Institucion
+INSERT INTO INSTITUTION VALUES(99,'Ninguno');
+INSERT INTO INSTITUTION VALUES(101,'Educación');
+INSERT INTO INSTITUTION VALUES(202,'Salud');
+INSERT INTO INSTITUTION VALUES(303,'PNC');
+INSERT INTO INSTITUTION VALUES(404,'Gobierno');
+INSERT INTO INSTITUTION VALUES(505,'Fuerza Armada');
+INSERT INTO INSTITUTION VALUES(606,'Periodismo');
+INSERT INTO INSTITUTION VALUES(707,'Cuerpo de Socorro');
+INSERT INTO INSTITUTION VALUES(808,'Personal de Fronteras');
+INSERT INTO INSTITUTION VALUES(909,'Centro Penales');
+INSERT INTO INSTITUTION VALUES(910,'Otros');
+
+--Banco de datos de Efecto Secundario
+INSERT INTO EFFECT_SECONDARY VALUES(1,'Ninguno');
+ INSERT INTO EFFECT_SECONDARY VALUES(2,'Dolor y/o sensibilidad en el sitio de la inyección');
+ INSERT INTO EFFECT_SECONDARY VALUES(3,'Enrojecimiento en el sitio de la inyección'); 
+ INSERT INTO EFFECT_SECONDARY VALUES(4,'Fatiga');
+ INSERT INTO EFFECT_SECONDARY VALUES(5,'Dolor de cabeza');
+ INSERT INTO EFFECT_SECONDARY VALUES(6,'Fiebre');
+ INSERT INTO EFFECT_SECONDARY VALUES(7,'Mialgia');
+ INSERT INTO EFFECT_SECONDARY VALUES(8,'Artralgia');
+ INSERT INTO EFFECT_SECONDARY VALUES(9,'Anafilaxia');
+ INSERT INTO EFFECT_SECONDARY VALUES(10,'Entre otros');
+
+  --Banco de datos del Lugar de Vacunacion
+ INSERT INTO PLACE_VACCINATION VALUES(1,'Hospital de El Salvador');
+ INSERT INTO PLACE_VACCINATION VALUES(2,'Hospital Nacional Rosales');
+ INSERT INTO PLACE_VACCINATION VALUES(3,'Hospital San Rafael');
+ INSERT INTO PLACE_VACCINATION VALUES(4,'Hospital Zaldaña');
+ INSERT INTO PLACE_VACCINATION VALUES(5,'Hospital de Diagnostico');
+ INSERT INTO PLACE_VACCINATION VALUES(6,'Hospital Climesa');
+
+ --Banco de datos Encargado
+INSERT INTO MANAGER VALUES('09786543','Luis Fernandez','+503 75673453','09786543@salud.gob.sv');
+INSERT INTO MANAGER VALUES('00182021','Manuel Rodriguez','+503 77864532','00182021@salud.gob.sv');
+INSERT INTO MANAGER VALUES('05643233','Pablo Jimenez','+503 75329855','05643233@salud.gob.sv');
+INSERT INTO MANAGER VALUES('00997432','Maria Ruiz','+503 79754532','00997432@salud.gob.sv');
+
+--Banco de datos de Cabina
+ INSERT INTO BOOTH VALUES(1,'La Libertad, La libertad','09786543');
+ INSERT INTO BOOTH VALUES(2,'San Salvador, San Salvador','00182021');
+ INSERT INTO BOOTH VALUES(3,'La Libertad, Santa Tecla','05643233');
+ INSERT INTO BOOTH VALUES(4,'San Miguel, Moncagua','00997432');
+
+  --Banco de datos Empleados
+  --Cabina #1
+INSERT INTO EMPLOYEE VALUES('00175420','Edwin Arucha','00175420@salud.gob.sv','La Libertad,Puerto de La Libertad',1,1,'00175420');
+INSERT INTO EMPLOYEE VALUES('00010001','Walter Pistola','00010001@salud.gob.sv','La Libertad,Santa Tecla',1,2,NULL);
+INSERT INTO EMPLOYEE VALUES('09786543','Luis Fernandez','09786543@salud.gob.sv','La Libertad,Zaragoza',1,3,NULL);
+INSERT INTO EMPLOYEE VALUES('09564328','Aniceto Molina','09564328@salud.gob.sv','La Libertad,Majahual',1,4,NULL);
+INSERT INTO EMPLOYEE VALUES('08764455','Victor Molina','08764455@salud.gob.sv','La Libertad,Santa Tecla',1,5,NULL);
+
+  --Cabina #2
+INSERT INTO EMPLOYEE VALUES('00176620','Roberto Alvarado','00176620@salud.gob.sv','San Salvador,Mejicanos',2,1,'00176620');
+INSERT INTO EMPLOYEE VALUES('04320002','Alex Pineda','04320002@salud.gob.sv','San Salvador,Soyapango',2,2,NULL);
+INSERT INTO EMPLOYEE VALUES('00182021','Manuel Rodriguez','00182021@salud.gob.sv','San Salvador,Soyapango',2,3,NULL);
+INSERT INTO EMPLOYEE VALUES('90543212','Mauricio Gomez','90543212@salud.gob.sv','San Salvador,San Marcos',2,4,NULL);
+INSERT INTO EMPLOYEE VALUES('08764320','Elena Caceres','08764320@salud.gob.sv','San Salvador,Nejapa',2,5,NULL);
+
+  --Cabina #3
+INSERT INTO EMPLOYEE VALUES('00090220','Lourdes Jimenez','00090220@salud.gob.sv','La Libertad,Santa Tecla',3,1,'00090220');
+INSERT INTO EMPLOYEE VALUES('05430003','Ronaldo Canizalez','05430003@salud.gob.sv','La Libertad,Zaragoza',3,2,NULL);
+INSERT INTO EMPLOYEE VALUES('05643233','Pablo Jimenez','05643233@salud.gob.sv','La Libertad,Tamanique',3,3,NULL);
+INSERT INTO EMPLOYEE VALUES('67543211','Alberto Rivas','67543211@salud.gob.sv','La Libertad,San Jose Villanueva',3,4,NULL);
+INSERT INTO EMPLOYEE VALUES('09887755','Cristobal Carranza','09887755@salud.gob.sv','La Libertad,Santa Tecla',3,5,NULL);
+
+  --Cabina #4
+INSERT INTO EMPLOYEE VALUES('00161220','Erika Hernandez','00161220@salud.gob.sv','San Miguel,San Miguel',4,1,'00161220');
+INSERT INTO EMPLOYEE VALUES('12340004','Mario Duran','12340004@salud.gob.sv','San Miguel,Chinameca',4,2,NULL);
+INSERT INTO EMPLOYEE VALUES('00997432','Maria Ruiz','00997432@salud.gob.sv','San Miguel,Chirilagua',4,3,NULL);
+INSERT INTO EMPLOYEE VALUES('65454332','Gladis Hernandez','65454332@salud.gob.sv','San Miguel,Ciudad Barrios',4,4,NULL);
+INSERT INTO EMPLOYEE VALUES('89895544','Silvia Pajares','89895544@salud.gob.sv','San Miguel,San Miguel',4,5,NULL);

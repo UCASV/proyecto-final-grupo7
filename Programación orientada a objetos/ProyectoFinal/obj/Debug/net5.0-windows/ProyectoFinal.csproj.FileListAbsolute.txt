@@ -114,3 +114,5 @@ C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada 
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.pdb
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.genruntimeconfig.cache
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.csproj.AssemblyReference.cache
+C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\bin\Debug\net5.0-windows\BouncyCastle.Crypto.dll
+C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\bin\Debug\net5.0-windows\itextsharp.dll

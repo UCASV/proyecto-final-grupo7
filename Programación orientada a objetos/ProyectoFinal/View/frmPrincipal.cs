@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace ProyectoFinal
 {
@@ -235,18 +238,20 @@ namespace ProyectoFinal
         }
         private void SecondAppointment(Vaccination vacuna )
         {
+            //Genera hora y minuto random
             int h = 0;
             int minutes = 0;
             Random number = new Random();
             h = number.Next(7, 17);
             Random number2 = new Random();
-            minutes = number2.Next(0, 45);
-            var db = new ContextProyectoPOO_BDContext();
+            minutes = number2.Next(0, 45);  
+           //Se crea la cita para segunda dosis
             DateTime secondAppointment = Convert.ToDateTime(dtpDateApplication.Value.ToString());
             secondAppointment = secondAppointment.AddDays(42);
             TimeSpan hour = new TimeSpan( h, minutes, 0);
             secondAppointment = secondAppointment.Add(hour);
-            
+
+            var db = new ContextProyectoPOO_BDContext();
             var appointmentConect = new Appointment
             {
                 DateTime = secondAppointment,
@@ -255,7 +260,58 @@ namespace ProyectoFinal
             };
             db.Appointments.Add(appointmentConect);
             db.SaveChanges();
+            GeneratePDF();
         }
+        private void GeneratePDF()
+        {
+            var db = new ContextProyectoPOO_BDContext();
+            FileStream fs = new FileStream(@"C:\Users\IncoMex\Desktop\Gabriela\PDF\CitaSegundaDosis.pdf", FileMode.Create);
+            Document doc = new Document(PageSize.LETTER, 5, 5, 7, 7);
+            PdfWriter pdfW = PdfWriter.GetInstance(doc, fs);
+            doc.Open();
+            //titulo pdf y autor
+            doc.AddAuthor("Grupo 8");
+            doc.AddTitle("Proceso de vacunación");
+
+            //definifir la fuente
+            iTextSharp.text.Font standarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            // Encabezado del documento
+            doc.Add(new Paragraph("Información de vacunación", standarFont));
+            doc.Add(Chunk.NEWLINE);
+
+            //Encabezado de columnas
+            PdfPTable tblTry = new PdfPTable(2);
+            tblTry.WidthPercentage = 100;
+
+            //Configurando el título de nuestras columnas
+            PdfPCell clDateTimeApplication = new PdfPCell(new Phrase("Fecha y hora de aplicación de vacuna", standarFont));
+            clDateTimeApplication.BorderWidth = 0;
+            clDateTimeApplication.BorderWidthBottom = 0.75f;
+
+            PdfPCell clDateTimeProcess = new PdfPCell(new Phrase("Fecha y hora de aplicación", standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            tblTry.AddCell(clDateTimeApplication);
+            tblTry.AddCell(clDateTimeProcess);
+
+            PdfPCell clDateTimeApplication2 = new PdfPCell(new Phrase(dtpDateApplication.Value.ToString(), standarFont));
+            clDateTimeApplication.BorderWidth = 0;
+            clDateTimeApplication.BorderWidthBottom = 0.75f;
+
+            PdfPCell clDateTimeProcess2 = new PdfPCell(new Phrase(dtpDate.Value.ToString(), standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+            tblTry.AddCell(clDateTimeApplication2);
+            tblTry.AddCell(clDateTimeProcess2);
+
+            doc.Add(tblTry);
+            doc.Close();
+            pdfW.Close();
+
+            MessageBox.Show("Se ha creado exitosamente el PDF", "PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private void frmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();

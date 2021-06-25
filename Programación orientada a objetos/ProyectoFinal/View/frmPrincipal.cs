@@ -236,7 +236,7 @@ namespace ProyectoFinal
             db.SaveChanges();
             SecondAppointment(postVaccination);
         }
-        private void SecondAppointment(Vaccination vacuna )
+        private void SecondAppointment(Vaccination vaccination )
         {
             //Genera hora y minuto random
             int h = 0;
@@ -256,15 +256,19 @@ namespace ProyectoFinal
             {
                 DateTime = secondAppointment,
                 IdCitizen = 3,
-                IdVaccination = vacuna.Id
+                IdVaccination = vaccination.Id
             };
             db.Appointments.Add(appointmentConect);
             db.SaveChanges();
-            GeneratePDF();
+            GeneratePDF(secondAppointment, vaccination);
         }
-        private void GeneratePDF()
+        private void GeneratePDF(DateTime secondAppointment, Vaccination vaccination)
         {
             var db = new ContextProyectoPOO_BDContext();
+            var query = from EffectSecondary in db.EffectSecondaries
+                        where EffectSecondary.Id == vaccination.IdEffectSecondary
+                        select EffectSecondary.EffectSecondary1;
+
             FileStream fs = new FileStream(@"C:\Users\IncoMex\Desktop\Gabriela\PDF\CitaSegundaDosis.pdf", FileMode.Create);
             Document doc = new Document(PageSize.LETTER, 5, 5, 7, 7);
             PdfWriter pdfW = PdfWriter.GetInstance(doc, fs);
@@ -292,9 +296,20 @@ namespace ProyectoFinal
             clDateTimeProcess.BorderWidth = 0;
             clDateTimeProcess.BorderWidthBottom = 0.75f;
 
+            PdfPCell clSideEffects = new PdfPCell(new Phrase("Efectos secundarios presentados", standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            PdfPCell clSecondAppointment = new PdfPCell(new Phrase("Fecha y hora para segunda dosis", standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
             tblTry.AddCell(clDateTimeApplication);
             tblTry.AddCell(clDateTimeProcess);
+            tblTry.AddCell(clSideEffects);
+            tblTry.AddCell(clSecondAppointment);
 
+            //Añadiendo datos
             PdfPCell clDateTimeApplication2 = new PdfPCell(new Phrase(dtpDateApplication.Value.ToString(), standarFont));
             clDateTimeApplication.BorderWidth = 0;
             clDateTimeApplication.BorderWidthBottom = 0.75f;
@@ -302,8 +317,19 @@ namespace ProyectoFinal
             PdfPCell clDateTimeProcess2 = new PdfPCell(new Phrase(dtpDate.Value.ToString(), standarFont));
             clDateTimeProcess.BorderWidth = 0;
             clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            PdfPCell clSideEffects2 = new PdfPCell(new Phrase(query.ToString(), standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
+            PdfPCell clSecondAppointment2 = new PdfPCell(new Phrase(secondAppointment.ToString(), standarFont));
+            clDateTimeProcess.BorderWidth = 0;
+            clDateTimeProcess.BorderWidthBottom = 0.75f;
+
             tblTry.AddCell(clDateTimeApplication2);
             tblTry.AddCell(clDateTimeProcess2);
+            tblTry.AddCell(clSideEffects2);
+            tblTry.AddCell(clSecondAppointment2);
 
             doc.Add(tblTry);
             doc.Close();

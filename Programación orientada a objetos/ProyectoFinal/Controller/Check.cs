@@ -35,5 +35,24 @@ namespace ProyectoFinal.Controller
             return status;
         }
 
+        //Metodo para validar en numero de DUI
+        public static bool CheckDui(string dui)
+        {
+            const string digits = "0123456789";
+
+            if (dui.Length != 10)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < dui.Length; i++)
+            {
+                if ((i == 8 && dui[i] != '-') || (i != 8 && !digits.Contains(dui[i])))
+                    return false;
+
+            }
+            return true;
+        }
+
     }
 }

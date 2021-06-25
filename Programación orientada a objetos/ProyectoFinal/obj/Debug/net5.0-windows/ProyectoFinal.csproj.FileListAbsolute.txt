@@ -100,7 +100,6 @@ C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada 
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\bin\Debug\net5.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\bin\Debug\net5.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\bin\Debug\net5.0-windows\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.csproj.AssemblyReference.cache
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.Properties.Resources.resources
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.frmPrincipal.resources
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoPrueba.Login.resources
@@ -114,3 +113,4 @@ C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada 
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ref\ProyectoFinal.dll
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.pdb
 C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.genruntimeconfig.cache
+C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.csproj.AssemblyReference.cache

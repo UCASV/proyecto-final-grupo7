@@ -208,7 +208,15 @@ namespace ProyectoFinal
         private void btnFinish_Click(object sender, EventArgs e)
         {
             var db = new ContextProyectoPOO_BDContext();
-
+            AddingData();
+            
+            MessageBox.Show("Se ha almacenado la información, el ciudadano " +
+                "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Clear();
+        }
+        private void AddingData()
+        {
+            var db = new ContextProyectoPOO_BDContext();
             //Creando una nueva entidad de referencia que ya existe
             EffectSecondary sideEffect = (EffectSecondary)cmbSideEffects.SelectedItem;
             EffectSecondary sideEffectReference = db.Set<EffectSecondary>()
@@ -222,20 +230,32 @@ namespace ProyectoFinal
                 TimeSecondaryEffect = txtMinutes.Text.Trim()
             };
             db.Vaccinations.Add(postVaccination);
-
+            db.SaveChanges();
+            SecondAppointment(postVaccination);
+        }
+        private void SecondAppointment(Vaccination vacuna )
+        {
+            int h = 0;
+            int minutes = 0;
+            Random number = new Random();
+            h = number.Next(7, 17);
+            Random number2 = new Random();
+            minutes = number2.Next(0, 45);
+            var db = new ContextProyectoPOO_BDContext();
+            DateTime secondAppointment = Convert.ToDateTime(dtpDateApplication.Value.ToString());
+            secondAppointment = secondAppointment.AddDays(42);
+            TimeSpan hour = new TimeSpan( h, minutes, 0);
+            secondAppointment = secondAppointment.Add(hour);
+            
             var appointmentConect = new Appointment
             {
-                DateTime = dtpDate.Value,
-                IdCitizen = 1,
-                IdVaccination = postVaccination.Id
+                DateTime = secondAppointment,
+                IdCitizen = 3,
+                IdVaccination = vacuna.Id
             };
             db.Appointments.Add(appointmentConect);
             db.SaveChanges();
-            MessageBox.Show("Se ha almacenado la información, el ciudadano " +
-                "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Clear();
         }
-
         private void frmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();

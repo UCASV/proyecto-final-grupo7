@@ -12,6 +12,7 @@ using iTextSharp.text.pdf;
 using System.IO;
 using ProyectoFinal.ContextUCA;
 using ProyectoFinal.Controller;
+using ProyectoFinal.View;
 
 namespace ProyectoFinal
 {
@@ -436,10 +437,13 @@ namespace ProyectoFinal
                 Disease1 = txtDisease.Text,
                 IdCitizen = citizen.Id//asignando al id del ciudadano
             };
+            var result = citizen;
 
             db.Add(disease);//agregamos la lista de enfermedades al Id del ciudadano
             db.SaveChanges();
             MessageBox.Show("Los datos del ciudadano ha sido almacenada", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            frmAppointment window = new frmAppointment(result);
+            window.ShowDialog();
         }
 
     }

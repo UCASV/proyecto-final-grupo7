@@ -288,10 +288,19 @@ namespace ProyectoFinal
             EffectSecondary sideEffect = (EffectSecondary)cmbSideEffects.SelectedItem;
             EffectSecondary sideEffectReference = db.Set<EffectSecondary>()
                     .SingleOrDefault(s => s.Id == sideEffect.Id);
+            //Obteniendo id del appointmet
+            var query4 = (from Appointment in db.Appointments
+                         from Citizen in db.Citizens
+                         where Appointment.IdCitizen == Citizen.Id
+                         && Citizen.Dui == txtDui.Text
+                         orderby Appointment.Id
+                         select Appointment.Id).Last();
+            int a = Convert.ToInt32(query4);
             var postVaccination = new Vaccination
             {
                 DateTimeApplication = dtpDateApplication.Value,
                 DateTimeProcess = dtpDate.Value,
+                IdAppointment = a,
                // IdPlaceVaccination = 1,   ---> campo ya no existente
                 IdEffectSecondary = sideEffectReference.Id,
                 TimeSecondaryEffect = txtMinutes.Text.Trim()
@@ -316,10 +325,25 @@ namespace ProyectoFinal
             secondAppointment = secondAppointment.Add(hour);
 
             var db = new UCA_ContextContext();
+            //Consulta para obtene el id del lugar de vacunación
+            var query = (from Appointment in db.Appointments
+                          from PlaceVaccination in db.PlaceVaccinations
+                         from Citizen in db.Citizens
+                         where Appointment.IdCitizen == Citizen.Id && Appointment.IdPlaceVaccination == PlaceVaccination.Id
+                         && Citizen.Dui == txtDui.Text
+                         orderby Appointment.IdPlaceVaccination
+                          select Appointment.IdPlaceVaccination).Last();
+            int idPlace = Convert.ToInt32(query);
+            var query5 = (from Citizen in db.Citizens
+                          where Citizen.Dui == txtDui.Text
+                          orderby Citizen.Id
+                          select Citizen.Id).Last();
+            int idCitizen = Convert.ToInt32(query5);
             var appointmentConect = new Appointment
             {
                 DateTime = secondAppointment,
-                IdCitizen = 3,
+                IdCitizen = idCitizen,
+                IdPlaceVaccination = idPlace
                 //IdVaccination = vaccination.Id -----> Modificacion campo ya no existente
             };
             db.Appointments.Add(appointmentConect);

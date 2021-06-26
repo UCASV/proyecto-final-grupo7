@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ProyectoFinal.ContextUCA
 {
-    public partial class UCA_ContextContext : DbContext
+    public partial class Proyecto_Final_BD_POO_2021Context : DbContext
     {
-        public UCA_ContextContext()
+        public Proyecto_Final_BD_POO_2021Context()
         {
         }
 
-        public UCA_ContextContext(DbContextOptions<UCA_ContextContext> options)
+        public Proyecto_Final_BD_POO_2021Context(DbContextOptions<Proyecto_Final_BD_POO_2021Context> options)
             : base(options)
         {
         }
@@ -124,10 +124,10 @@ namespace ProyectoFinal.ContextUCA
             {
                 entity.ToTable("CITIZEN");
 
-                entity.HasIndex(e => e.EMail, "UQ__CITIZEN__31660442D7B9798E")
+                entity.HasIndex(e => e.EMail, "UQ__CITIZEN__3166044234C1B5A2")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Phone, "UQ__CITIZEN__B43B145F4995C6B0")
+                entity.HasIndex(e => e.Phone, "UQ__CITIZEN__B43B145FB0C4C1FE")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -224,7 +224,7 @@ namespace ProyectoFinal.ContextUCA
             {
                 entity.ToTable("EMPLOYEE");
 
-                entity.HasIndex(e => e.EMailInstitutional, "UQ__EMPLOYEE__510293D186A4E4FF")
+                entity.HasIndex(e => e.EMailInstitutional, "UQ__EMPLOYEE__510293D1B76281E9")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -327,10 +327,10 @@ namespace ProyectoFinal.ContextUCA
             {
                 entity.ToTable("MANAGER");
 
-                entity.HasIndex(e => e.EMail, "UQ__MANAGER__31660442057312E1")
+                entity.HasIndex(e => e.EMail, "UQ__MANAGER__3166044217206B73")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Phone, "UQ__MANAGER__B43B145F7395EF24")
+                entity.HasIndex(e => e.Phone, "UQ__MANAGER__B43B145F474A49E8")
                     .IsUnique();
 
                 entity.Property(e => e.Id)

@@ -302,6 +302,7 @@ namespace ProyectoFinal
                 IdEffectSecondary = sideEffectReference.Id,
                 TimeSecondaryEffect = txtMinutes.Text.Trim()
             };
+
             db.Vaccinations.Add(postVaccination);
             db.SaveChanges();
             SecondAppointment(postVaccination);
@@ -349,14 +350,14 @@ namespace ProyectoFinal
             total = (from Appointment in db.Appointments from Citizen in db.Citizens where Appointment.IdCitizen == Citizen.Id
                          && Citizen.Dui == txtDui.Text select Appointment.IdCitizen).Count();
 
-            if (total == 0)
+            if (total == 1 )
             {
                 db.Appointments.Add(appointmentConect);
                 db.SaveChanges();
                 MessageBox.Show("Se ha almacenado la información, el ciudadano " +
                "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (total == 1)
+            else if (total == 2)
             {
                 MessageBox.Show("Al ciudadano ya se le han aplicado las dos dosis de vacuna" +
                     " por lo tanto ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);

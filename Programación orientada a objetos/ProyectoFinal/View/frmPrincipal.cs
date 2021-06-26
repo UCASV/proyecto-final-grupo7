@@ -276,9 +276,6 @@ namespace ProyectoFinal
         {
             var db = new UCA_ContextContext();
             AddingData();
-            
-            MessageBox.Show("Se ha almacenado la información, el ciudadano " +
-                "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Clear();
         }
         private void AddingData()
@@ -309,7 +306,7 @@ namespace ProyectoFinal
             db.SaveChanges();
             SecondAppointment(postVaccination);
         }
-        private void SecondAppointment(Vaccination vaccination )
+        private void SecondAppointment(Vaccination vaccination)
         {
             //Genera hora y minuto random
             int h = 0;
@@ -317,23 +314,24 @@ namespace ProyectoFinal
             Random number = new Random();
             h = number.Next(7, 17);
             Random number2 = new Random();
-            minutes = number2.Next(0, 45);  
-           //Se crea la cita para segunda dosis
+            minutes = number2.Next(0, 45);
+            //Se crea la cita para segunda dosis
             DateTime secondAppointment = Convert.ToDateTime(dtpDateApplication.Value.ToString());
             secondAppointment = secondAppointment.AddDays(42);
-            TimeSpan hour = new TimeSpan( h, minutes, 0);
+            TimeSpan hour = new TimeSpan(h, minutes, 0);
             secondAppointment = secondAppointment.Add(hour);
 
             var db = new UCA_ContextContext();
             //Consulta para obtene el id del lugar de vacunación
             var query = (from Appointment in db.Appointments
-                          from PlaceVaccination in db.PlaceVaccinations
+                         from PlaceVaccination in db.PlaceVaccinations
                          from Citizen in db.Citizens
                          where Appointment.IdCitizen == Citizen.Id && Appointment.IdPlaceVaccination == PlaceVaccination.Id
                          && Citizen.Dui == txtDui.Text
                          orderby Appointment.IdPlaceVaccination
-                          select Appointment.IdPlaceVaccination).Last();
+                         select Appointment.IdPlaceVaccination).Last();
             int idPlace = Convert.ToInt32(query);
+            //Consulta que devuelve el id del ciudadano
             var query5 = (from Citizen in db.Citizens
                           where Citizen.Dui == txtDui.Text
                           orderby Citizen.Id
@@ -346,9 +344,24 @@ namespace ProyectoFinal
                 IdPlaceVaccination = idPlace
                 //IdVaccination = vaccination.Id -----> Modificacion campo ya no existente
             };
-            db.Appointments.Add(appointmentConect);
-            db.SaveChanges();
-            GeneratePDF(secondAppointment, vaccination);
+            //Consulta que devuelve el numero de veces que se repite el id del ciudadano
+            int total = 0;
+            total = (from Appointment in db.Appointments from Citizen in db.Citizens where Appointment.IdCitizen == Citizen.Id
+                         && Citizen.Dui == txtDui.Text select Appointment.IdCitizen).Count();
+
+            if (total == 0)
+            {
+                db.Appointments.Add(appointmentConect);
+                db.SaveChanges();
+                MessageBox.Show("Se ha almacenado la información, el ciudadano " +
+               "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (total == 1)
+            {
+                MessageBox.Show("Al ciudadano ya se le han aplicado las dos dosis de vacuna" +
+                    " por lo tanto ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            //GeneratePDF(secondAppointment, vaccination);
         }
         private void GeneratePDF(DateTime secondAppointment, Vaccination vaccination)
         {

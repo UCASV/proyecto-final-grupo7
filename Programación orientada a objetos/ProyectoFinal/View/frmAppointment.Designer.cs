@@ -200,7 +200,6 @@ namespace ProyectoFinal.View
             this.Name = "frmAppointment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmAppointment";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAppointment_FormClosing);
             this.Load += new System.EventHandler(this.frmAppointment_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

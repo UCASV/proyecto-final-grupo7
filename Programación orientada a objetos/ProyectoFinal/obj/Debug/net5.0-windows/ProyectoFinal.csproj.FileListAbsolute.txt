@@ -418,3 +418,4 @@ C:\Users\rober\Desktop\Casi final\Programación orientada a objetos\ProyectoFina
 C:\Users\rober\Desktop\Casi final\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ref\ProyectoFinal.dll
 C:\Users\rober\Desktop\Casi final\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.pdb
 C:\Users\rober\Desktop\Casi final\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.genruntimeconfig.cache
+C:\Users\IncoMex\Desktop\Gabriela\proyecto-final-grupo7\Programación orientada a objetos\ProyectoFinal\obj\Debug\net5.0-windows\ProyectoFinal.View.frmAppointment.resources

@@ -285,9 +285,29 @@ namespace ProyectoFinal
 
         private void btnFinish_Click(object sender, EventArgs e)
         {
-            var db = new UCA_ContextContext();
-            AddingData();
-            Clear();
+            ValidateData();
+            
+        }
+        private void ValidateData()
+        {
+            try
+            {
+                var date1 = dtpDate.Value.Date;
+                var date2 = dtpDateApplication.Value.Date;
+                Validation.ValidateDates(date1,date2);
+                EffectSecondary sideEffect = (EffectSecondary)cmbSideEffects.SelectedItem;
+                Validation.ValidateSelectedItem(Convert.ToInt32(nudMinutes.Value),sideEffect);
+                AddingData();
+                Clear();
+            }
+            catch (DateException ex)
+            {
+               MessageBox.Show("Error " + ex.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+            catch (SideEffectsException ex)
+            {
+                MessageBox.Show("Error " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void AddingData()
         {
@@ -311,8 +331,9 @@ namespace ProyectoFinal
                 IdAppointment = a,
                // IdPlaceVaccination = 1,   ---> campo ya no existente
                 IdEffectSecondary = sideEffectReference.Id,
-                TimeSecondaryEffect = txtMinutes.Text.Trim()
+                TimeSecondaryEffect = nudMinutes.Value.ToString()
             };
+
             db.Vaccinations.Add(postVaccination);
             db.SaveChanges();
             SecondAppointment(postVaccination);
@@ -360,14 +381,14 @@ namespace ProyectoFinal
             total = (from Appointment in db.Appointments from Citizen in db.Citizens where Appointment.IdCitizen == Citizen.Id
                          && Citizen.Dui == txtDui.Text select Appointment.IdCitizen).Count();
 
-            if (total == 0)
+            if (total == 1 )
             {
                 db.Appointments.Add(appointmentConect);
                 db.SaveChanges();
                 MessageBox.Show("Se ha almacenado la información, el ciudadano " +
                "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (total == 1)
+            else if (total == 2)
             {
                 MessageBox.Show("Al ciudadano ya se le han aplicado las dos dosis de vacuna" +
                     " por lo tanto ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -396,7 +417,7 @@ namespace ProyectoFinal
             doc.Add(Chunk.NEWLINE);
 
             //Encabezado de columnas
-            PdfPTable tblTry = new PdfPTable(2);
+            PdfPTable tblTry = new PdfPTable(4);
             tblTry.WidthPercentage = 100;
 
             //Configurando el título de nuestras columnas

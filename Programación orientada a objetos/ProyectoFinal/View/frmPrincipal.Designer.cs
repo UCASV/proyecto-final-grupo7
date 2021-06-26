@@ -99,7 +99,6 @@ namespace ProyectoFinal
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.txtMinutes = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.cmbSideEffects = new System.Windows.Forms.ComboBox();
             this.btnPDFPV = new System.Windows.Forms.Button();
@@ -108,6 +107,7 @@ namespace ProyectoFinal
             this.dtpDateApplication = new System.Windows.Forms.DateTimePicker();
             this.tmrTimer = new System.Windows.Forms.Timer(this.components);
             this.ttpMinutes = new System.Windows.Forms.ToolTip(this.components);
+            this.nudMinutes = new System.Windows.Forms.NumericUpDown();
             this.tabPanelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.stripRegisterUser.SuspendLayout();
@@ -127,6 +127,7 @@ namespace ProyectoFinal
             this.tabPostVaccination.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMinutes)).BeginInit();
             this.SuspendLayout();
             // 
             // tabPanelMenu
@@ -287,7 +288,7 @@ namespace ProyectoFinal
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.53846F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.35013F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.86207F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 82F));
             this.tableLayoutPanel1.Controls.Add(this.btnSave, 1, 9);
             this.tableLayoutPanel1.Controls.Add(this.btnCancelRU, 4, 9);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox3, 1, 1);
@@ -339,7 +340,7 @@ namespace ProyectoFinal
             this.btnSave.Location = new System.Drawing.Point(21, 298);
             this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(161, 37);
+            this.btnSave.Size = new System.Drawing.Size(160, 37);
             this.btnSave.TabIndex = 15;
             this.btnSave.Text = "Guardar";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -354,10 +355,10 @@ namespace ProyectoFinal
             this.btnCancelRU.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelRU.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnCancelRU.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCancelRU.Location = new System.Drawing.Point(484, 298);
+            this.btnCancelRU.Location = new System.Drawing.Point(482, 298);
             this.btnCancelRU.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancelRU.Name = "btnCancelRU";
-            this.btnCancelRU.Size = new System.Drawing.Size(164, 37);
+            this.btnCancelRU.Size = new System.Drawing.Size(163, 37);
             this.btnCancelRU.TabIndex = 16;
             this.btnCancelRU.Text = "Cancelar";
             this.btnCancelRU.UseVisualStyleBackColor = false;
@@ -369,7 +370,7 @@ namespace ProyectoFinal
             this.pictureBox3.Location = new System.Drawing.Point(21, 12);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(161, 51);
+            this.pictureBox3.Size = new System.Drawing.Size(160, 51);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 17;
             this.pictureBox3.TabStop = false;
@@ -379,10 +380,10 @@ namespace ProyectoFinal
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(186, 26);
+            this.label8.Location = new System.Drawing.Point(185, 26);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(71, 22);
+            this.label8.Size = new System.Drawing.Size(70, 22);
             this.label8.TabIndex = 18;
             this.label8.Text = "DUI:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -392,10 +393,10 @@ namespace ProyectoFinal
             this.txtDuiRU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.txtDuiRU, 2);
             this.txtDuiRU.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtDuiRU.Location = new System.Drawing.Point(261, 23);
+            this.txtDuiRU.Location = new System.Drawing.Point(259, 23);
             this.txtDuiRU.Margin = new System.Windows.Forms.Padding(2);
             this.txtDuiRU.Name = "txtDuiRU";
-            this.txtDuiRU.Size = new System.Drawing.Size(387, 29);
+            this.txtDuiRU.Size = new System.Drawing.Size(386, 29);
             this.txtDuiRU.TabIndex = 19;
             // 
             // citizenName
@@ -406,7 +407,7 @@ namespace ProyectoFinal
             this.citizenName.Location = new System.Drawing.Point(21, 70);
             this.citizenName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.citizenName.Name = "citizenName";
-            this.citizenName.Size = new System.Drawing.Size(161, 22);
+            this.citizenName.Size = new System.Drawing.Size(160, 22);
             this.citizenName.TabIndex = 0;
             this.citizenName.Text = "Nombre:";
             this.citizenName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -416,10 +417,10 @@ namespace ProyectoFinal
             this.txtCitizenName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.txtCitizenName, 3);
             this.txtCitizenName.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtCitizenName.Location = new System.Drawing.Point(186, 67);
+            this.txtCitizenName.Location = new System.Drawing.Point(185, 67);
             this.txtCitizenName.Margin = new System.Windows.Forms.Padding(2);
             this.txtCitizenName.Name = "txtCitizenName";
-            this.txtCitizenName.Size = new System.Drawing.Size(462, 29);
+            this.txtCitizenName.Size = new System.Drawing.Size(460, 29);
             this.txtCitizenName.TabIndex = 1;
             this.txtCitizenName.TextChanged += new System.EventHandler(this.txtCritizenName_TextChanged);
             // 
@@ -431,7 +432,7 @@ namespace ProyectoFinal
             this.phoneNumber2.Location = new System.Drawing.Point(21, 103);
             this.phoneNumber2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.phoneNumber2.Name = "phoneNumber2";
-            this.phoneNumber2.Size = new System.Drawing.Size(161, 22);
+            this.phoneNumber2.Size = new System.Drawing.Size(160, 22);
             this.phoneNumber2.TabIndex = 1;
             this.phoneNumber2.Text = "Télefono:";
             this.phoneNumber2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -444,7 +445,7 @@ namespace ProyectoFinal
             this.Direction2.Location = new System.Drawing.Point(21, 136);
             this.Direction2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Direction2.Name = "Direction2";
-            this.Direction2.Size = new System.Drawing.Size(161, 22);
+            this.Direction2.Size = new System.Drawing.Size(160, 22);
             this.Direction2.TabIndex = 5;
             this.Direction2.Text = "Dirección:";
             this.Direction2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -457,7 +458,7 @@ namespace ProyectoFinal
             this.label1.Location = new System.Drawing.Point(21, 164);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(161, 44);
+            this.label1.Size = new System.Drawing.Size(160, 44);
             this.label1.TabIndex = 8;
             this.label1.Text = "Correo institucional:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -470,7 +471,7 @@ namespace ProyectoFinal
             this.sickness.Location = new System.Drawing.Point(21, 214);
             this.sickness.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.sickness.Name = "sickness";
-            this.sickness.Size = new System.Drawing.Size(161, 22);
+            this.sickness.Size = new System.Drawing.Size(160, 22);
             this.sickness.TabIndex = 7;
             this.sickness.Text = "Enfermedad:";
             this.sickness.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -483,7 +484,7 @@ namespace ProyectoFinal
             this.Institution.Location = new System.Drawing.Point(21, 244);
             this.Institution.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Institution.Name = "Institution";
-            this.Institution.Size = new System.Drawing.Size(161, 44);
+            this.Institution.Size = new System.Drawing.Size(160, 44);
             this.Institution.TabIndex = 6;
             this.Institution.Text = "Institución perteneciente:";
             this.Institution.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -493,10 +494,10 @@ namespace ProyectoFinal
             this.txtPhoneNumer2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.txtPhoneNumer2, 3);
             this.txtPhoneNumer2.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtPhoneNumer2.Location = new System.Drawing.Point(186, 100);
+            this.txtPhoneNumer2.Location = new System.Drawing.Point(185, 100);
             this.txtPhoneNumer2.Margin = new System.Windows.Forms.Padding(2);
             this.txtPhoneNumer2.Name = "txtPhoneNumer2";
-            this.txtPhoneNumer2.Size = new System.Drawing.Size(462, 29);
+            this.txtPhoneNumer2.Size = new System.Drawing.Size(460, 29);
             this.txtPhoneNumer2.TabIndex = 10;
             this.txtPhoneNumer2.TextChanged += new System.EventHandler(this.txtPhoneNumer2_TextChanged);
             // 
@@ -505,10 +506,10 @@ namespace ProyectoFinal
             this.txtDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.txtDirection, 3);
             this.txtDirection.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtDirection.Location = new System.Drawing.Point(186, 133);
+            this.txtDirection.Location = new System.Drawing.Point(185, 133);
             this.txtDirection.Margin = new System.Windows.Forms.Padding(2);
             this.txtDirection.Name = "txtDirection";
-            this.txtDirection.Size = new System.Drawing.Size(462, 29);
+            this.txtDirection.Size = new System.Drawing.Size(460, 29);
             this.txtDirection.TabIndex = 12;
             this.txtDirection.TextChanged += new System.EventHandler(this.txtDirection_TextChanged);
             // 
@@ -517,10 +518,10 @@ namespace ProyectoFinal
             this.txtEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.txtEmail, 3);
             this.txtEmail.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtEmail.Location = new System.Drawing.Point(186, 171);
+            this.txtEmail.Location = new System.Drawing.Point(185, 171);
             this.txtEmail.Margin = new System.Windows.Forms.Padding(2);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(462, 29);
+            this.txtEmail.Size = new System.Drawing.Size(460, 29);
             this.txtEmail.TabIndex = 11;
             this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
             // 
@@ -529,10 +530,10 @@ namespace ProyectoFinal
             this.txtDisease.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.txtDisease, 3);
             this.txtDisease.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtDisease.Location = new System.Drawing.Point(186, 211);
+            this.txtDisease.Location = new System.Drawing.Point(185, 211);
             this.txtDisease.Margin = new System.Windows.Forms.Padding(2);
             this.txtDisease.Name = "txtDisease";
-            this.txtDisease.Size = new System.Drawing.Size(462, 29);
+            this.txtDisease.Size = new System.Drawing.Size(460, 29);
             this.txtDisease.TabIndex = 13;
             this.txtDisease.TextChanged += new System.EventHandler(this.txtSickness_TextChanged);
             // 
@@ -542,7 +543,7 @@ namespace ProyectoFinal
             this.btnPDFRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDFRegister.Font = new System.Drawing.Font("Calisto MT", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnPDFRegister.ForeColor = System.Drawing.Color.White;
-            this.btnPDFRegister.Location = new System.Drawing.Point(262, 299);
+            this.btnPDFRegister.Location = new System.Drawing.Point(260, 299);
             this.btnPDFRegister.Name = "btnPDFRegister";
             this.btnPDFRegister.Size = new System.Drawing.Size(148, 35);
             this.btnPDFRegister.TabIndex = 20;
@@ -557,9 +558,9 @@ namespace ProyectoFinal
             this.tableLayoutPanel1.SetColumnSpan(this.cmbInstitution, 2);
             this.cmbInstitution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbInstitution.FormattingEnabled = true;
-            this.cmbInstitution.Location = new System.Drawing.Point(187, 244);
+            this.cmbInstitution.Location = new System.Drawing.Point(186, 244);
             this.cmbInstitution.Name = "cmbInstitution";
-            this.cmbInstitution.Size = new System.Drawing.Size(292, 23);
+            this.cmbInstitution.Size = new System.Drawing.Size(291, 23);
             this.cmbInstitution.TabIndex = 21;
             // 
             // label2
@@ -569,16 +570,16 @@ namespace ProyectoFinal
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(485, 241);
+            this.label2.Location = new System.Drawing.Point(483, 241);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(162, 50);
+            this.label2.Size = new System.Drawing.Size(161, 50);
             this.label2.TabIndex = 22;
             this.label2.Text = "Edad:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtAge
             // 
-            this.txtAge.Location = new System.Drawing.Point(653, 244);
+            this.txtAge.Location = new System.Drawing.Point(650, 244);
             this.txtAge.Name = "txtAge";
             this.txtAge.Size = new System.Drawing.Size(62, 23);
             this.txtAge.TabIndex = 23;
@@ -1047,13 +1048,13 @@ namespace ProyectoFinal
             this.tableLayoutPanel5.Controls.Add(this.label17, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.label18, 3, 0);
             this.tableLayoutPanel5.Controls.Add(this.label19, 0, 1);
-            this.tableLayoutPanel5.Controls.Add(this.txtMinutes, 1, 1);
             this.tableLayoutPanel5.Controls.Add(this.label20, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.cmbSideEffects, 1, 2);
             this.tableLayoutPanel5.Controls.Add(this.btnPDFPV, 2, 3);
             this.tableLayoutPanel5.Controls.Add(this.btnFinish, 4, 3);
             this.tableLayoutPanel5.Controls.Add(this.pictureBox5, 2, 1);
             this.tableLayoutPanel5.Controls.Add(this.dtpDateApplication, 3, 1);
+            this.tableLayoutPanel5.Controls.Add(this.nudMinutes, 1, 1);
             this.tableLayoutPanel5.Location = new System.Drawing.Point(36, 3);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 4;
@@ -1110,15 +1111,6 @@ namespace ProyectoFinal
             this.label19.Text = "Minutos transcurridos:";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.ttpMinutes.SetToolTip(this.label19, "Escribir los minutos en un lapso de 30 minutos");
-            // 
-            // txtMinutes
-            // 
-            this.txtMinutes.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtMinutes.Font = new System.Drawing.Font("Calisto MT", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtMinutes.Location = new System.Drawing.Point(135, 116);
-            this.txtMinutes.Name = "txtMinutes";
-            this.txtMinutes.Size = new System.Drawing.Size(99, 26);
-            this.txtMinutes.TabIndex = 11;
             // 
             // label20
             // 
@@ -1212,6 +1204,20 @@ namespace ProyectoFinal
             this.ttpMinutes.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.ttpMinutes.ToolTipTitle = "Minutos";
             // 
+            // nudMinutes
+            // 
+            this.nudMinutes.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.nudMinutes.Font = new System.Drawing.Font("Calisto MT", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.nudMinutes.Location = new System.Drawing.Point(135, 116);
+            this.nudMinutes.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudMinutes.Name = "nudMinutes";
+            this.nudMinutes.Size = new System.Drawing.Size(120, 25);
+            this.nudMinutes.TabIndex = 24;
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1256,6 +1262,7 @@ namespace ProyectoFinal
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMinutes)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1319,7 +1326,6 @@ namespace ProyectoFinal
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox txtMinutes;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button btnFinish;
         private System.Windows.Forms.DateTimePicker dtpDateApplication;
@@ -1339,5 +1345,6 @@ namespace ProyectoFinal
         private System.Windows.Forms.ComboBox cmbInstitution;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtAge;
+        private System.Windows.Forms.NumericUpDown nudMinutes;
     }
 }

@@ -72,9 +72,6 @@ namespace ProyectoFinal.View
 
         }
 
-        private void frmAppointment_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Application.Exit();
-        }
+        
     }
 }

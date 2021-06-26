@@ -274,9 +274,23 @@ namespace ProyectoFinal
 
         private void btnFinish_Click(object sender, EventArgs e)
         {
-            var db = new UCA_ContextContext();
-            AddingData();
-            Clear();
+            ValidateData();
+            
+        }
+        private void ValidateData()
+        {
+            try
+            {
+                var date1 = dtpDate.Value.Date;
+                var date2 = dtpDateApplication.Value.Date;
+                Validation.ValidateDates(date1,date2);
+                AddingData();
+                Clear();
+            }
+            catch (DateException ex)
+            {
+               MessageBox.Show("Error " + ex.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
         }
         private void AddingData()
         {
@@ -300,7 +314,7 @@ namespace ProyectoFinal
                 IdAppointment = a,
                // IdPlaceVaccination = 1,   ---> campo ya no existente
                 IdEffectSecondary = sideEffectReference.Id,
-                TimeSecondaryEffect = txtMinutes.Text.Trim()
+                TimeSecondaryEffect = nudMinutes.Value.ToString()
             };
 
             db.Vaccinations.Add(postVaccination);
@@ -386,7 +400,7 @@ namespace ProyectoFinal
             doc.Add(Chunk.NEWLINE);
 
             //Encabezado de columnas
-            PdfPTable tblTry = new PdfPTable(2);
+            PdfPTable tblTry = new PdfPTable(4);
             tblTry.WidthPercentage = 100;
 
             //Configurando el título de nuestras columnas

@@ -284,12 +284,18 @@ namespace ProyectoFinal
                 var date1 = dtpDate.Value.Date;
                 var date2 = dtpDateApplication.Value.Date;
                 Validation.ValidateDates(date1,date2);
+                EffectSecondary sideEffect = (EffectSecondary)cmbSideEffects.SelectedItem;
+                Validation.ValidateSelectedItem(Convert.ToInt32(nudMinutes.Value),sideEffect);
                 AddingData();
                 Clear();
             }
             catch (DateException ex)
             {
                MessageBox.Show("Error " + ex.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+            catch (SideEffectsException ex)
+            {
+                MessageBox.Show("Error " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void AddingData()

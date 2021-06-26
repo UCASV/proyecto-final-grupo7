@@ -106,34 +106,45 @@ namespace ProyectoFinal
                 var disease = new List<Disease>();
                 int age = Convert.ToInt32(txtAge.Text);
 
-                //Si el ciudadano pertenece a una Institucion con prioridad
-                if (Check.Check_institution(institute.Id))
-                {
-                    AddCitizen(); //agregamos ciudadano a BD
-                    return;
-                }
-                //Si el ciudadano tiene 60 años para arriba
-                if(age >= 60)
-                {
-                    AddCitizen(); // agregamos ciudadano a BD
-                    return;
-                }
-                //Si el ciudadano tiene 18 años y padece de muchas enfermedades
-                if(n.Age >=18 && disease.Count > 0)
-                {
-                    AddCitizen(); //agregamos ciudadano a BD
-                    return;
-                }
+                var ListCitizen = db.Citizens
+                  .OrderBy(u => u.Dui)
+                  .ToList();
 
+                var result = ListCitizen.Where(
+                    u => u.Dui.Equals(txtDuiRU.Text)
+                    ).ToList();
+
+                if(result.Count() == 0) //se crea el ciudadano
+                {
+                    //Si el ciudadano pertenece a una Institucion con prioridad
+                    if (Check.Check_institution(institute.Id))
+                    {
+                        AddCitizen(); //agregamos ciudadano a BD
+                        return;
+                    }
+                    //Si el ciudadano tiene 60 años para arriba
+                    if (age >= 60)
+                    {
+                        AddCitizen(); // agregamos ciudadano a BD
+                        return;
+                    }
+                    //Si el ciudadano tiene 18 años y padece de muchas enfermedades
+                    if (n.Age >= 18 && disease.Count > 0)
+                    {
+                        AddCitizen(); //agregamos ciudadano a BD
+                        return;
+                    }
+
+                    else//No esta registrado pero no es una persona con prioridad
+                    {
+                        MessageBox.Show("No eres una persona con prioridad, Espera tu etapa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
                 else
                 {
-                    MessageBox.Show("No eres una persona con prioridad, Espera tu etapa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    MessageBox.Show("Ya tienes una cita existente ", "Error de duplicacion de citas", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-                   
-                //Posteriormente se le genera un mensaje para que aparezca la fecha de su cita
-
-                //funcion para mostrar la fecha de la cita
             }
 
             else
@@ -474,14 +485,13 @@ namespace ProyectoFinal
                 Disease1 = txtDisease.Text,
                 IdCitizen = citizen.Id//asignando al id del ciudadano
             };
-            var result = citizen;
+            var result1 = citizen;
 
             db.Add(disease);//agregamos la lista de enfermedades al Id del ciudadano
             db.SaveChanges();
             MessageBox.Show("Los datos del ciudadano ha sido almacenada", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            frmAppointment window = new frmAppointment(result);
+            frmAppointment window = new frmAppointment(result1);
             window.ShowDialog();
         }
-
     }
 }

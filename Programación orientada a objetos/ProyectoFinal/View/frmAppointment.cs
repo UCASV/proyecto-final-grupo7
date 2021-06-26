@@ -58,18 +58,18 @@ namespace ProyectoFinal.View
             dtpTime.Format = DateTimePickerFormat.Custom;
             dtpTime.CustomFormat = "hh:mm:tt";
 
-            //Agregamos una cita a un ciudadano
-            Appointment appointment = new Appointment
-            {
-                DateTime = Date,
-                IdPlaceVaccination = place.Id,
-                IdCitizen = citizen.Id
-            };
-            db.Add(appointment);//agregamos la nueva cita del ciudadano registrado
-            db.SaveChanges();
+                Appointment appointment = new Appointment
+                {
+                    DateTime = Date,
+                    IdPlaceVaccination = place.Id,
+                    IdCitizen = citizen.Id
+                };
+                db.Add(appointment);//agregamos la nueva cita del ciudadano registrado
+                db.SaveChanges();
 
-            MessageBox.Show("La cita se ha almacenado correctamente", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                MessageBox.Show("La cita se ha almacenado correctamente", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Hide();
         }
 
         

@@ -39,7 +39,6 @@ namespace ProyectoFinal.View
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.btnAdd_Appointment = new System.Windows.Forms.Button();
-            this.btnPDF = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -57,8 +56,7 @@ namespace ProyectoFinal.View
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.btnAdd_Appointment, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.btnPDF, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.btnAdd_Appointment, 1, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
@@ -166,26 +164,13 @@ namespace ProyectoFinal.View
             this.btnAdd_Appointment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd_Appointment.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAdd_Appointment.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnAdd_Appointment.Location = new System.Drawing.Point(3, 190);
+            this.btnAdd_Appointment.Location = new System.Drawing.Point(121, 190);
             this.btnAdd_Appointment.Name = "btnAdd_Appointment";
-            this.btnAdd_Appointment.Size = new System.Drawing.Size(112, 45);
+            this.btnAdd_Appointment.Size = new System.Drawing.Size(191, 45);
             this.btnAdd_Appointment.TabIndex = 8;
             this.btnAdd_Appointment.Text = "Guardar";
             this.btnAdd_Appointment.UseVisualStyleBackColor = false;
             this.btnAdd_Appointment.Click += new System.EventHandler(this.btnAdd_Appointment_Click);
-            // 
-            // btnPDF
-            // 
-            this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(11)))), ((int)(((byte)(30)))), ((int)(((byte)(89)))));
-            this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPDF.Font = new System.Drawing.Font("Calisto MT", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnPDF.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnPDF.Location = new System.Drawing.Point(318, 190);
-            this.btnPDF.Name = "btnPDF";
-            this.btnPDF.Size = new System.Drawing.Size(102, 51);
-            this.btnPDF.TabIndex = 7;
-            this.btnPDF.Text = "Generar PDF";
-            this.btnPDF.UseVisualStyleBackColor = false;
             // 
             // frmAppointment
             // 
@@ -219,6 +204,5 @@ namespace ProyectoFinal.View
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnAdd_Appointment;
-        private System.Windows.Forms.Button btnPDF;
     }
 }

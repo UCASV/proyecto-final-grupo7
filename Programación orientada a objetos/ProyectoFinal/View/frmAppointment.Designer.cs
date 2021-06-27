@@ -155,7 +155,7 @@ namespace ProyectoFinal.View
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 51);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Lugar de Cita:";
+            this.label3.Text = "Lugar de Vacunación:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnAdd_Appointment

@@ -31,6 +31,9 @@ namespace ProyectoFinal
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
             tabControl.ItemSize = new Size(0, 1);
+
+            btnPDFRegister.Enabled = false;//desabilitando el boton de registrar
+
             //Conectando el combobox con la base de datos
             var db = new UCA_ContextContext();
             var sideEffects = from EffectSecondary in db.EffectSecondaries
@@ -475,6 +478,7 @@ namespace ProyectoFinal
         {
             Application.Exit();
         }
+        private Citizen citizenN { get; set; }//variable global
 
         private void AddCitizen()//Metodo para agregar ciudadano a la BD
         {
@@ -506,13 +510,50 @@ namespace ProyectoFinal
                 Disease1 = txtDisease.Text,
                 IdCitizen = citizen.Id//asignando al id del ciudadano
             };
-            var result1 = citizen;
+            citizenN = citizen; //asignando los datos del ciudadano registrado
 
             db.Add(disease);//agregamos la lista de enfermedades al Id del ciudadano
             db.SaveChanges();
             MessageBox.Show("Los datos del ciudadano ha sido almacenada", "Datos almacenados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            frmAppointment window = new frmAppointment(result1);
+            frmAppointment window = new frmAppointment(citizenN);//pasando los datos del ciudadano a la otra ventana
             window.ShowDialog();
+            btnPDFRegister.Enabled = true; //habilitando el boton
+        }
+
+        private void btnPDFRegister_Click(object sender, EventArgs e)
+        {
+
+            var db = new UCA_ContextContext();
+
+            var ListAppointment = db.Appointments
+                .OrderBy(u => u.IdCitizen)
+                .ToList();
+
+            var result = ListAppointment.Where(
+                u => u.IdCitizen.Equals(citizenN.Id)
+                ).ToList();
+
+            if (result.Count == 0)//si no son correctos los datos
+            {
+                MessageBox.Show("No se ha podido generar su PDF", "Error al Generar PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            //Generando el PDF
+            else
+            {
+                Appointment cdbb = //obteniendo los datos de la consulta (La fecha y hora) del ultimo registro de la tabla de Cita
+                    db.Set<Appointment>().OrderBy(n => n.Id).LastOrDefault(u =>
+                    u.IdCitizen == citizenN.Id);
+
+                //obteniendo el dato del lugar de vacunacion
+                PlaceVaccination place = db.Set<PlaceVaccination>().SingleOrDefault(u => u.Id == cdbb.IdPlaceVaccination);
+
+                //utilizando la clase de generador de PDF
+                Generator.GeneratorPDF(citizenN.NameCitizen, citizenN.Dui, citizenN.Direction, citizenN.Phone, citizenN.EMail,
+                 cdbb.DateTime, place.PlaceVaccination1);
+
+                MessageBox.Show("Se ha generado correctamente el PDF con los datos del ciudadano", "Datos del Ciudadano", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnPDFRegister.Enabled = false;//Desabilitando el boton de Imprimir
+            }
         }
     }
 }

@@ -101,7 +101,6 @@ namespace ProyectoFinal
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.cmbSideEffects = new System.Windows.Forms.ComboBox();
-            this.btnPDFPV = new System.Windows.Forms.Button();
             this.btnFinish = new System.Windows.Forms.Button();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.dtpDateApplication = new System.Windows.Forms.DateTimePicker();
@@ -288,7 +287,7 @@ namespace ProyectoFinal
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.53846F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.35013F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.86207F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 91F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tableLayoutPanel1.Controls.Add(this.btnSave, 1, 9);
             this.tableLayoutPanel1.Controls.Add(this.btnCancelRU, 4, 9);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox3, 1, 1);
@@ -340,7 +339,7 @@ namespace ProyectoFinal
             this.btnSave.Location = new System.Drawing.Point(21, 298);
             this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(158, 37);
+            this.btnSave.Size = new System.Drawing.Size(159, 37);
             this.btnSave.TabIndex = 15;
             this.btnSave.Text = "Guardar";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -355,7 +354,7 @@ namespace ProyectoFinal
             this.btnCancelRU.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelRU.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnCancelRU.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCancelRU.Location = new System.Drawing.Point(475, 298);
+            this.btnCancelRU.Location = new System.Drawing.Point(480, 298);
             this.btnCancelRU.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancelRU.Name = "btnCancelRU";
             this.btnCancelRU.Size = new System.Drawing.Size(161, 37);
@@ -370,7 +369,7 @@ namespace ProyectoFinal
             this.pictureBox3.Location = new System.Drawing.Point(21, 12);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(158, 51);
+            this.pictureBox3.Size = new System.Drawing.Size(159, 51);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 17;
             this.pictureBox3.TabStop = false;
@@ -380,7 +379,7 @@ namespace ProyectoFinal
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Calisto MT", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(183, 26);
+            this.label8.Location = new System.Drawing.Point(184, 26);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(69, 22);
@@ -1051,7 +1050,6 @@ namespace ProyectoFinal
             this.tableLayoutPanel5.Controls.Add(this.label19, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.label20, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.cmbSideEffects, 1, 2);
-            this.tableLayoutPanel5.Controls.Add(this.btnPDFPV, 2, 3);
             this.tableLayoutPanel5.Controls.Add(this.btnFinish, 4, 3);
             this.tableLayoutPanel5.Controls.Add(this.pictureBox5, 2, 1);
             this.tableLayoutPanel5.Controls.Add(this.dtpDateApplication, 3, 1);
@@ -1138,22 +1136,6 @@ namespace ProyectoFinal
             this.cmbSideEffects.Name = "cmbSideEffects";
             this.cmbSideEffects.Size = new System.Drawing.Size(243, 23);
             this.cmbSideEffects.TabIndex = 22;
-            // 
-            // btnPDFPV
-            // 
-            this.btnPDFPV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPDFPV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(11)))), ((int)(((byte)(30)))), ((int)(((byte)(89)))));
-            this.btnPDFPV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPDFPV.Font = new System.Drawing.Font("Calisto MT", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnPDFPV.ForeColor = System.Drawing.Color.White;
-            this.btnPDFPV.Location = new System.Drawing.Point(267, 261);
-            this.btnPDFPV.Name = "btnPDFPV";
-            this.btnPDFPV.Size = new System.Drawing.Size(126, 81);
-            this.btnPDFPV.TabIndex = 21;
-            this.btnPDFPV.Text = "Generar PDF";
-            this.btnPDFPV.UseVisualStyleBackColor = false;
             // 
             // btnFinish
             // 
@@ -1339,7 +1321,6 @@ namespace ProyectoFinal
         private System.Windows.Forms.ToolStripMenuItem toolStripPostVaccination;
         private System.Windows.Forms.ToolTip ttpMinutes;
         private System.Windows.Forms.Button btnPDFRegister;
-        private System.Windows.Forms.Button btnPDFPV;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.ComboBox cmbSideEffects;
         private System.Windows.Forms.PictureBox pictureBox5;

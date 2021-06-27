@@ -390,87 +390,100 @@ namespace ProyectoFinal
                 db.SaveChanges();
                 MessageBox.Show("Se ha almacenado la información, el ciudadano " +
                "ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                GeneratePDF(secondAppointment, vaccination);
             }
             else if (total == 2)
             {
                 MessageBox.Show("Al ciudadano ya se le han aplicado las dos dosis de vacuna" +
-                    " por lo tanto ya puede retirarse", "Última etapa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    " por lo tanto ya puede retirarse", "Segunda dosis", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            //GeneratePDF(secondAppointment, vaccination);
         }
         private void GeneratePDF(DateTime secondAppointment, Vaccination vaccination)
         {
             var db = new UCA_ContextContext();
-            var query = from EffectSecondary in db.EffectSecondaries
-                        where EffectSecondary.Id == vaccination.IdEffectSecondary
-                        select EffectSecondary.EffectSecondary1;
+            //Consulta para obtener el efecto secundario
+            var sideEffect = (from EffectSecondary in db.EffectSecondaries
+                              from Vaccination in db.Vaccinations
+                              from Citizen in db.Citizens
+                              where EffectSecondary.Id == vaccination.IdEffectSecondary && Citizen.Dui == txtDui.Text
+                              orderby EffectSecondary.Id
+                              select EffectSecondary.EffectSecondary1).Last();
+            //Consulta para obtener el nombre del nombre del ciudadano
+            var nameCitizen = (from Citizen in db.Citizens
+                               where Citizen.Dui == txtDui.Text
+                               orderby Citizen.Id
+                               select Citizen.NameCitizen).Last();
+            //Consulta para obtener el dui del ciudadano
+            var citizenDui = (from Citizen in db.Citizens
+                              where Citizen.Dui == txtDui.Text
+                              orderby Citizen.Id
+                              select Citizen.Dui).Last();
+            //Consulta para obtener el lugar de vacunación
+            var placeVaccination = (from Appointment in db.Appointments
+                                    from PlaceVaccination in db.PlaceVaccinations
+                                    from Citizen in db.Citizens
+                                    where Appointment.IdCitizen == Citizen.Id && Appointment.IdPlaceVaccination == PlaceVaccination.Id
+                                    && Citizen.Dui == txtDui.Text
+                                    orderby Appointment.IdPlaceVaccination
+                                    select PlaceVaccination.PlaceVaccination1).Last();
 
+            //Generar PDF
             FileStream fs = new FileStream(@"C:\Users\IncoMex\Desktop\Gabriela\PDF\CitaSegundaDosis.pdf", FileMode.Create);
             Document doc = new Document(PageSize.LETTER, 5, 5, 7, 7);
             PdfWriter pdfW = PdfWriter.GetInstance(doc, fs);
             doc.Open();
             //titulo pdf y autor
-            doc.AddAuthor("Grupo 8");
+            doc.AddAuthor("Grupo 7");
             doc.AddTitle("Proceso de vacunación");
-
             //definifir la fuente
             iTextSharp.text.Font standarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             // Encabezado del documento
             doc.Add(new Paragraph("Información de vacunación", standarFont));
             doc.Add(Chunk.NEWLINE);
 
-            //Encabezado de columnas
-            PdfPTable tblTry = new PdfPTable(4);
-            tblTry.WidthPercentage = 100;
+            var spacer = new Paragraph("")
+            {
+                SpacingBefore = 10f,
+                SpacingAfter = 10f,
+            };
+            doc.Add(spacer);
 
-            //Configurando el título de nuestras columnas
-            PdfPCell clDateTimeApplication = new PdfPCell(new Phrase("Fecha y hora de aplicación de vacuna", standarFont));
-            clDateTimeApplication.BorderWidth = 0;
-            clDateTimeApplication.BorderWidthBottom = 0.75f;
+            var headerTable = new PdfPTable(new[] { 2f, 2f })
+            {
+                HorizontalAlignment = Left,
+                WidthPercentage = 75,
+                DefaultCell = { MinimumHeight = 22f }
+            };
 
-            PdfPCell clDateTimeProcess = new PdfPCell(new Phrase("Fecha y hora de aplicación", standarFont));
-            clDateTimeProcess.BorderWidth = 0;
-            clDateTimeProcess.BorderWidthBottom = 0.75f;
+            headerTable.AddCell("Nombre del ciudadano");
+            headerTable.AddCell(nameCitizen.ToString());
+            headerTable.AddCell("DUI");
+            headerTable.AddCell(citizenDui.ToString());
 
-            PdfPCell clSideEffects = new PdfPCell(new Phrase("Efectos secundarios presentados", standarFont));
-            clDateTimeProcess.BorderWidth = 0;
-            clDateTimeProcess.BorderWidthBottom = 0.75f;
+            doc.Add(headerTable);
+            doc.Add(spacer);
 
-            PdfPCell clSecondAppointment = new PdfPCell(new Phrase("Fecha y hora para segunda dosis", standarFont));
-            clDateTimeProcess.BorderWidth = 0;
-            clDateTimeProcess.BorderWidthBottom = 0.75f;
+            var headerTable2 = new PdfPTable(new[] { 2f, 2f })
+            {
+                HorizontalAlignment = Left,
+                WidthPercentage = 75,
+                DefaultCell = { MinimumHeight = 22f }
+            };
 
-            tblTry.AddCell(clDateTimeApplication);
-            tblTry.AddCell(clDateTimeProcess);
-            tblTry.AddCell(clSideEffects);
-            tblTry.AddCell(clSecondAppointment);
+            headerTable2.AddCell("Fecha y hora de aplicación de vacuna");
+            headerTable2.AddCell(dtpDateApplication.Value.ToString());
+            headerTable2.AddCell("Efecto secundario presentado");
+            headerTable2.AddCell(sideEffect.ToString());
+            headerTable2.AddCell("Minutos transcurridos en que se presentó");
+            headerTable2.AddCell(nudMinutes.Value.ToString() + " minutos");
+            headerTable2.AddCell("Cita para segunda dosis");
+            headerTable2.AddCell(secondAppointment.ToString());
+            headerTable2.AddCell("Lugar de vacunación");
+            headerTable2.AddCell(placeVaccination.ToString());
 
-            //Añadiendo datos
-            PdfPCell clDateTimeApplication2 = new PdfPCell(new Phrase(dtpDateApplication.Value.ToString(), standarFont));
-            clDateTimeApplication.BorderWidth = 0;
-            clDateTimeApplication.BorderWidthBottom = 0.75f;
-
-            PdfPCell clDateTimeProcess2 = new PdfPCell(new Phrase(dtpDate.Value.ToString(), standarFont));
-            clDateTimeProcess.BorderWidth = 0;
-            clDateTimeProcess.BorderWidthBottom = 0.75f;
-
-            PdfPCell clSideEffects2 = new PdfPCell(new Phrase(query.ToString(), standarFont));
-            clDateTimeProcess.BorderWidth = 0;
-            clDateTimeProcess.BorderWidthBottom = 0.75f;
-
-            PdfPCell clSecondAppointment2 = new PdfPCell(new Phrase(secondAppointment.ToString(), standarFont));
-            clDateTimeProcess.BorderWidth = 0;
-            clDateTimeProcess.BorderWidthBottom = 0.75f;
-
-            tblTry.AddCell(clDateTimeApplication2);
-            tblTry.AddCell(clDateTimeProcess2);
-            tblTry.AddCell(clSideEffects2);
-            tblTry.AddCell(clSecondAppointment2);
-
-            doc.Add(tblTry);
+            doc.Add(headerTable2);
             doc.Close();
             pdfW.Close();
-
             MessageBox.Show("Se ha creado exitosamente el PDF", "PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

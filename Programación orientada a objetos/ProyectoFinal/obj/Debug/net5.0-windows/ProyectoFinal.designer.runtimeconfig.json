@@ -6,12 +6,8 @@
       "version": "5.0.0"
     },
     "additionalProbingPaths": [
-      "C:\\Users\\rober\\.dotnet\\store\\|arch|\\|tfm|",
-<<<<<<< HEAD
+      "C:\\Users\\IncoMex\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\IncoMex\\.nuget\\packages",
-=======
-      "C:\\Users\\rober\\.nuget\\packages",
->>>>>>> GeneratorPDF
       "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ],
     "configProperties": {

@@ -33,6 +33,7 @@ namespace ProyectoFinal
             tabControl.ItemSize = new Size(0, 1);
 
             btnPDFRegister.Enabled = false;//desabilitando el boton de registrar
+            btnGenerator2.Enabled = false;//desabilitando boton de generar PDF
 
             //Conectando el combobox con la base de datos
             var db = new UCA_ContextContext();
@@ -221,9 +222,50 @@ namespace ProyectoFinal
             lblDiseases.Text = "";
             lblInstitution.Text = "";
         }
+        private Citizen citizenNN { get; set; }//variable global
         private void btnSearch_Click(object sender, EventArgs e)
         {
             //Se hará validación y si no retorna nada se deberá de sugerir si desea registrarse para que se le asigne una cita
+            btnGenerator2.Enabled = true;
+            //Se hará validación y si no retorna nada se deberá de sugerir si desea registrarse para que se le asigne una cita
+            var db = new UCA_ContextContext();
+
+            Citizen cd =
+                db.Set<Citizen>().OrderBy(u => u.Dui).LastOrDefault(u => //buscamos a los ciudadanos con el mismo dui ingresado
+                u.Dui == txtDui.Text);
+
+            citizenNN = cd;
+            //DiseaseNN = disease1;
+
+            if (cd == null)//Si el dui es igual al registrado
+            {
+                MessageBox.Show("El numero de DUI ingresado, No existe!", "Seguimiento de cita", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tabControl.SelectedIndex = 1;//devolviendo a registrarse
+                txtDui.Clear();
+                lblNameShow.Text = "";
+                lblPhoneNumber.Text = "";
+                lblDirection.Text = "";
+                lblEmail.Text = "";
+                lblDiseases.Text = "";
+                lblInstitution.Text = "";
+            }
+            else//si no existe el carnet
+            {
+
+                Disease disease1 =
+                db.Set<Disease>().OrderBy(u => u.IdCitizen).LastOrDefault(u => //buscamos en la tabla de enfermedades al id de ciudadano que coincida con el id antes buscado
+                u.IdCitizen == cd.Id);
+
+                Institution institution = db.Set<Institution>().SingleOrDefault(u => u.Id == cd.IdInstitution); //buscamos en la tabla Institucion y Enfermedad
+                Disease disease = db.Set<Disease>().SingleOrDefault(u => u.Id == disease1.Id);
+                lblNameShow.Text = cd.NameCitizen;//asigando el nombre del ciudadano al label
+                lblPhoneNumber.Text = cd.Phone;//asigando el telefono del ciudadano al label
+                lblDirection.Text = cd.Direction;//asigando la direccion del ciudadano al label
+                lblEmail.Text = cd.EMail;//asigando el nombre del ciudadano al label
+                lblDiseases.Text = disease.Disease1;//asignando la enfermedad del ciudadano al label
+                lblInstitution.Text = institution.Institution1;//asigando la institucion ciudadano al label 
+
+            }
         }
 
         private void btnNextSC_Click(object sender, EventArgs e)
@@ -236,6 +278,15 @@ namespace ProyectoFinal
                 pgrProgress.Value = pgrProgress.Minimum;
                 tmrTimer.Enabled = true;
                 btnNextPV.Enabled = false;
+
+                //Limpiamos
+                txtDui.Clear();
+                lblNameShow.Text = "";
+                lblPhoneNumber.Text = "";
+                lblEmail.Text = "";
+                lblDirection.Text = "";
+                lblDiseases.Text = "";
+                lblInstitution.Text = "";
             }
             else
             {
@@ -535,7 +586,6 @@ namespace ProyectoFinal
 
         private void btnPDFRegister_Click(object sender, EventArgs e)
         {
-
             var db = new UCA_ContextContext();
 
             var ListAppointment = db.Appointments
@@ -566,7 +616,37 @@ namespace ProyectoFinal
 
                 MessageBox.Show("Se ha generado correctamente el PDF con los datos del ciudadano", "Datos del Ciudadano", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnPDFRegister.Enabled = false;//Desabilitando el boton de Imprimir
+
+                txtDuiRU.Text = "";
+                txtCitizenName.Text = "";
+                txtPhoneNumer2.Text = "";
+                txtDirection.Text = "";
+                txtEmail.Text = "";
+                txtDisease.Text = "";
+                cmbInstitution.SelectedItem = 0;
+                txtAge.Text = "";
             }
+        }
+
+        private void btnGenerator2_Click(object sender, EventArgs e)
+        {
+            var db = new UCA_ContextContext();
+
+            Institution institution = db.Set<Institution>().SingleOrDefault(u => u.Id == citizenNN.IdInstitution); //buscamos en la tabla Institucion y Enfermedad
+            //Disease disease = db.Set<Disease>().SingleOrDefault(u => u.Id == DiseaseNN.Id);
+
+            Appointment cdbb = //obteniendo los datos de la consulta (La fecha y hora) del ultimo registro de la tabla de Cita
+                    db.Set<Appointment>().OrderBy(n => n.Id).LastOrDefault(u =>
+                    u.IdCitizen == citizenNN.Id);
+
+            //obteniendo el dato del lugar de vacunacion
+            PlaceVaccination place = db.Set<PlaceVaccination>().SingleOrDefault(u => u.Id == cdbb.IdPlaceVaccination);
+            //Generando el PDF
+            Generator.GeneratorPDF(citizenNN.NameCitizen, citizenNN.Dui, citizenNN.Direction, citizenNN.Phone, citizenNN.EMail,
+                cdbb.DateTime, place.PlaceVaccination1);
+
+            btnGenerator2.Enabled = false; //desabilitando las funciones del boton
+            MessageBox.Show("Se ha generado correctamente el PDF con los datos del ciudadano", "Datos del Ciudadano", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

@@ -184,7 +184,7 @@ namespace ProyectoFinal.View
             this.MinimizeBox = false;
             this.Name = "frmAppointment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmAppointment";
+            this.Text = "Reservar Vacunación";
             this.Load += new System.EventHandler(this.frmAppointment_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ProyectoFinal.Controller
 {
@@ -14,13 +15,12 @@ namespace ProyectoFinal.Controller
         //Generador de PDF de los datos del ciudadano y su cita
         public static void GeneratorPDF(string name, string dui, string direction, string phone, string Email, DateTime datetime, string place)
         {
-            FileStream fs = new FileStream($"c://pdf/reporte_Citizen_{name}.pdf", FileMode.Create);
-            Document document = new Document(iTextSharp.text.PageSize.LETTER, 3, 3, 5, 5);
-            PdfWriter pw = PdfWriter.GetInstance(document, fs);
+            SaveFileDialog svg = new SaveFileDialog();
+            svg.ShowDialog();
 
-            document.Open();
-
-            document.Add(new Paragraph("<<<<<<<<<<<<<<<<<<<<<<<<DATOS DEL CIUDADANO>>>>>>>>>>>>>>>>>>>>>>>>>>\n" + //Contenido del PDF
+            using (FileStream stream = new FileStream(svg.FileName + ".pdf", FileMode.Create))//guardando el nombre del pdf
+            {
+                string detalle = "<<<<<<<<<<<<<<<<<<<<<<<<DATOS DEL CIUDADANO>>>>>>>>>>>>>>>>>>>>>>>>>>\n" + //Contenido del PDF
                 $"Nombre del ciudadano: {name}\n" +
                 $"DUI : {dui} \n" +
                 $"Direccion: {direction} \n" +
@@ -28,9 +28,16 @@ namespace ProyectoFinal.Controller
                 $"Correo Electronico: {Email} \n" +
                 "<<<<<<<<<<<<<DATOS DE LA VACUNACION DEL CIUDADANO>>>>>>>>>>>\n" +
                 $"Fecha y Hora de la Vacunacion: {datetime} \n" +
-                $"Lugar Vacunacion: {place} "));
+                $"Lugar Vacunacion: {place} ";
+                Paragraph text = new Paragraph(detalle);
 
-            document.Close();
+                Document pdfDoc = new Document(PageSize.LETTER, 10f, 10f, 10f, 0f);
+                PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+                pdfDoc.Add(text);
+                pdfDoc.Close();
+                stream.Close();
+            }
         }
     }
 }

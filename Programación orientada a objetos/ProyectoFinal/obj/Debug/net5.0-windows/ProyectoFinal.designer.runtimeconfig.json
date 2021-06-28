@@ -7,11 +7,7 @@
     },
     "additionalProbingPaths": [
       "C:\\Users\\rober\\.dotnet\\store\\|arch|\\|tfm|",
-<<<<<<< HEAD
-      "C:\\Users\\DELL_E7450\\.nuget\\packages",
-=======
       "C:\\Users\\rober\\.nuget\\packages",
->>>>>>> Follow_Appointment
       "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ],
     "configProperties": {

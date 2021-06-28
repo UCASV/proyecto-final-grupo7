@@ -280,7 +280,6 @@ namespace ProyectoFinal
                 btnNextPV.Enabled = false;
 
                 //Limpiamos
-                txtDui.Clear();
                 lblNameShow.Text = "";
                 lblPhoneNumber.Text = "";
                 lblEmail.Text = "";
@@ -479,62 +478,74 @@ namespace ProyectoFinal
                                     select PlaceVaccination.PlaceVaccination1).Last();
 
             //Generar PDF
-            FileStream fs = new FileStream(@"C:\Users\IncoMex\Desktop\Gabriela\PDF\CitaSegundaDosis.pdf", FileMode.Create);
-            Document doc = new Document(PageSize.LETTER, 5, 5, 7, 7);
-            PdfWriter pdfW = PdfWriter.GetInstance(doc, fs);
-            doc.Open();
-            //titulo pdf y autor
-            doc.AddAuthor("Grupo 7");
-            doc.AddTitle("Proceso de vacunación");
-            //definifir la fuente
-            iTextSharp.text.Font standarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-            // Encabezado del documento
-            doc.Add(new Paragraph("Información de vacunación", standarFont));
-            doc.Add(Chunk.NEWLINE);
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "PDF Files|*.pdf";
+            dlg.FilterIndex = 0;
 
-            var spacer = new Paragraph("")
+            string fileName = string.Empty;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
             {
-                SpacingBefore = 10f,
-                SpacingAfter = 10f,
-            };
-            doc.Add(spacer);
+                fileName = dlg.FileName;
 
-            var headerTable = new PdfPTable(new[] { 2f, 2f })
-            {
-                HorizontalAlignment = Left,
-                WidthPercentage = 75,
-                DefaultCell = { MinimumHeight = 22f }
-            };
+                //Generar PDF
+                FileStream fs = new FileStream(dlg.FileName, FileMode.Create);
+                Document doc = new Document(PageSize.LETTER, 5, 5, 7, 7);
+                PdfWriter pdfW = PdfWriter.GetInstance(doc, fs);
+                doc.Open();
+                //titulo pdf y autor
+                doc.AddAuthor("Grupo 7");
+                doc.AddTitle("Proceso de vacunación");
+                //definifir la fuente
+                iTextSharp.text.Font standarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+                // Encabezado del documento
+                doc.Add(new Paragraph("Información de vacunación", standarFont));
+                doc.Add(Chunk.NEWLINE);
 
-            headerTable.AddCell("Nombre del ciudadano");
-            headerTable.AddCell(nameCitizen.ToString());
-            headerTable.AddCell("DUI");
-            headerTable.AddCell(citizenDui.ToString());
+                var spacer = new Paragraph("")
+                {
+                    SpacingBefore = 10f,
+                    SpacingAfter = 10f,
+                };
+                doc.Add(spacer);
 
-            doc.Add(headerTable);
-            doc.Add(spacer);
+                var headerTable = new PdfPTable(new[] { 2f, 2f })
+                {
+                    HorizontalAlignment = Left,
+                    WidthPercentage = 75,
+                    DefaultCell = { MinimumHeight = 22f }
+                };
 
-            var headerTable2 = new PdfPTable(new[] { 2f, 2f })
-            {
-                HorizontalAlignment = Left,
-                WidthPercentage = 75,
-                DefaultCell = { MinimumHeight = 22f }
-            };
+                headerTable.AddCell("Nombre del ciudadano");
+                headerTable.AddCell(nameCitizen.ToString());
+                headerTable.AddCell("DUI");
+                headerTable.AddCell(citizenDui.ToString());
 
-            headerTable2.AddCell("Fecha y hora de aplicación de vacuna");
-            headerTable2.AddCell(dtpDateApplication.Value.ToString());
-            headerTable2.AddCell("Efecto secundario presentado");
-            headerTable2.AddCell(sideEffect.ToString());
-            headerTable2.AddCell("Minutos transcurridos en que se presentó");
-            headerTable2.AddCell(nudMinutes.Value.ToString() + " minutos");
-            headerTable2.AddCell("Cita para segunda dosis");
-            headerTable2.AddCell(secondAppointment.ToString());
-            headerTable2.AddCell("Lugar de vacunación");
-            headerTable2.AddCell(placeVaccination.ToString());
+                doc.Add(headerTable);
+                doc.Add(spacer);
 
-            doc.Add(headerTable2);
-            doc.Close();
-            pdfW.Close();
+                var headerTable2 = new PdfPTable(new[] { 2f, 2f })
+                {
+                    HorizontalAlignment = Left,
+                    WidthPercentage = 75,
+                    DefaultCell = { MinimumHeight = 22f }
+                };
+
+                headerTable2.AddCell("Fecha y hora de aplicación de vacuna");
+                headerTable2.AddCell(dtpDateApplication.Value.ToString());
+                headerTable2.AddCell("Efecto secundario presentado");
+                headerTable2.AddCell(sideEffect.ToString());
+                headerTable2.AddCell("Minutos transcurridos en que se presentó");
+                headerTable2.AddCell(nudMinutes.Value.ToString() + " minutos");
+                headerTable2.AddCell("Cita para segunda dosis");
+                headerTable2.AddCell(secondAppointment.ToString());
+                headerTable2.AddCell("Lugar de vacunación");
+                headerTable2.AddCell(placeVaccination.ToString());
+
+                doc.Add(headerTable2);
+                doc.Close();
+                pdfW.Close();
+            }
             MessageBox.Show("Se ha creado exitosamente el PDF", "PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zGJlG3DVoeg1JwV5toElZih/eAexGQGKToU5i274YN1AgxfiLpMACAai1+biKP9BbwQLzD/IZgxhtO+Tp5tGJg==",
+  "dgSpecHash": "cX5CH9QZgiFe8a4uMltHpZRHaLYb32uI57IjaJ7hMJ3yqPkDsC8vwA52FiNwjwULLmYKKeFpyzDjr5d6/KnAAw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\rober\\Desktop\\ParteEdwin\\Programación orientada a objetos\\ProyectoFinal\\ProyectoFinal.csproj",
+  "projectFilePath": "C:\\Users\\rober\\Desktop\\UpdateFinal\\Programación orientada a objetos\\ProyectoFinal\\ProyectoFinal.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rober\\.nuget\\packages\\bouncycastle\\1.8.6.1\\bouncycastle.1.8.6.1.nupkg.sha512",
     "C:\\Users\\rober\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

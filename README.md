@@ -31,10 +31,11 @@
 
 
 
-
-
-
 ---
 ## - MANUAL DE USUARIO 
+
+### El "manual de usuario" se encuentra en la carpeta llamada "Programación Orientada a Objetos" 
+
+
 
 

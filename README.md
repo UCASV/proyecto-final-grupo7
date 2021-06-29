@@ -27,6 +27,7 @@
 ### PASO 10- Verificamos y nuestro programa se está ejecutando.
 ![11](https://user-images.githubusercontent.com/62621556/123741002-913eae00-d866-11eb-9899-757d6c618f2c.jpeg)
 
+### Se utilizo .NET CORE versión 5.0 con la instalación de los paquetes NuGet antes mencionados; un requisito previo a la utilización del programa es de contar con una base de datos existentes "Banco de datos" llamada "UCA_Context", el gestor de datos debe de ser "SQL SERVER" en su versión DEVELOPER.
 
 
 

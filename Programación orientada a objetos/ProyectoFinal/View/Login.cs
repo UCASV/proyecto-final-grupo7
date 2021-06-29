@@ -57,10 +57,12 @@ namespace ProyectoPrueba
                 .ToList();
             string user = txtUser.Text;
             string pass = txtPassword.Text;
-            List<Administrator> result1 = administrators
-                .Where(a => a.NameUser == user &&
-                            a.PasswordUser == pass)
-                .ToList();
+            // Lista de datos de usuario: nombre de usuario y contraseña.
+            List<Administrator> userData = administrators
+                .Where(a => a.NameUser == user && a.PasswordUser == pass).ToList();
+            // Lista de nombre de usuario.
+            List<Administrator> userFound = administrators
+                .Where(a => a.NameUser == user).ToList();
 
             var query1 = (from Employee in db.Employees
                           from Administrator in db.Administrators
@@ -68,17 +70,21 @@ namespace ProyectoPrueba
                           where Administrator.Id == Employee.IdAdministrator &&
                           Booth.Id == Employee.IdBooth && Administrator.NameUser == txtUser.Text
                           orderby Booth.Id
-                          select Booth.Id).Last();
-            int id = query1;
+                          select Booth.Id).LastOrDefault();
+
+            int id = query1;// Consulta que obtiene número de cabina, segun el nombre de usuario introducido.
 
             List<Booth> booths = db.Booths
-                .ToList();
+              .ToList();
             int number = Int32.Parse(txtBooth.Text);
-            List<Booth> result2 = booths
+            // Lista de numero de cabina.
+            List<Booth> boothId = booths
                 .Where(a => id == number)
                 .ToList();
 
-            if (result1.Count() > 0 && result2.Count() > 0)
+            //primera condicional evalua si el nombre y contraseña de usuario y número de cabina
+            // son correctos.
+            if (userData.Count() > 0 && boothId.Count() > 0)
             {
                 DateTime localDate = DateTime.Now;
                 DialogResult dataEmployee = MessageBox.Show("Fecha y hora de inicio de sesión: "
@@ -91,12 +97,19 @@ namespace ProyectoPrueba
                     window.ShowDialog();
                 }
             }
-            //Mensaje de error
+            //segunda condicional evalua si el nombre de usuario no existe o si ha sido ingresado
+            //incorrectamente.
+            else if (userFound.Count == 0)
+            {
+                MessageBox.Show("El nombre de usuario introducido no existe!",
+                  "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            //tercera condicional evalua si la contraseña de usuario o el numero de cabina no
+            //existen o han sido ingresados incorrectamente.
             else
             {
-                MessageBox.Show("El Usuario y contraseña son incorrectos o el numero de cabina no existe!",
+                MessageBox.Show("La contraseña de usuario o el numero de cabina son incorrectos!",
                 "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //Irán validaciones para verificar que existe el usuario, que no pueda iniciar sesión sin haber ingresado algo
             }
         }
     }

@@ -1,4 +1,5 @@
 --CREACION DE LA BASE DEL PROYECTO
+CREATE DATABASE UCA_Context;
 SET LANGUAGE us_english
 
 -- Creando tablas
